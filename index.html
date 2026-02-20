@@ -1,373 +1,324 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Debapriya Arts</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;700&family=Montserrat:wght@300;400&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600&family=Montserrat:wght@300;400&display=swap" rel="stylesheet">
+
+<!-- Firebase CDN -->
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-storage-compat.js"></script>
 
 <style>
-
-/* ===== LUXURY ANIMATED WATERCOLOUR BACKGROUND ===== */
-
 body{
-    margin:0;
-    font-family:'Montserrat', sans-serif;
-    background: linear-gradient(-45deg,#f5e6d3,#efe0c8,#f8ecdd,#e9d5b9);
-    background-size:400% 400%;
-    animation: gradientMove 18s ease infinite;
-    color:#3e2f1c;
-    overflow-x:hidden;
-    cursor:none;
+margin:0;
+font-family:'Montserrat', sans-serif;
+background:linear-gradient(-45deg,#f5e6d3,#efe0c8,#f8ecdd,#e9d5b9);
+background-size:400% 400%;
+animation:bgMove 15s ease infinite;
+color:#3e2f1c;
 }
 
-@keyframes gradientMove{
-    0%{background-position:0% 50%}
-    50%{background-position:100% 50%}
-    100%{background-position:0% 50%}
+@keyframes bgMove{
+0%{background-position:0% 50%}
+50%{background-position:100% 50%}
+100%{background-position:0% 50%}
 }
-
-/* Floating glowing particles */
-body::before{
-    content:'';
-    position:fixed;
-    width:100%;
-    height:100%;
-    background-image:radial-gradient(circle,rgba(255,255,255,0.4) 1px,transparent 1px);
-    background-size:60px 60px;
-    animation: floatParticles 60s linear infinite;
-    pointer-events:none;
-}
-
-@keyframes floatParticles{
-    from{transform:translateY(0)}
-    to{transform:translateY(-200px)}
-}
-
-/* HEADER */
 
 header{
-    text-align:center;
-    padding:60px 20px;
+text-align:center;
+padding:40px;
+position:relative;
 }
 
 header h1{
-    font-family:'Cormorant Garamond', serif;
-    font-size:64px;
-    letter-spacing:3px;
-    margin:0;
+font-family:'Cormorant Garamond', serif;
+font-size:60px;
+margin:0;
 }
 
-.profile-img{
-    width:170px;
-    height:170px;
-    border-radius:50%;
-    object-fit:cover;
-    margin-top:25px;
-    border:3px solid #3e2f1c;
+.burger{
+position:absolute;
+right:20px;
+top:20px;
+font-size:30px;
+cursor:pointer;
 }
 
-header p{
-    max-width:650px;
-    margin:20px auto;
-    font-size:17px;
+#adminPanel{
+position:fixed;
+top:0;
+right:-350px;
+width:320px;
+height:100%;
+background:white;
+box-shadow:-5px 0 20px rgba(0,0,0,0.2);
+padding:20px;
+transition:0.4s;
+overflow:auto;
+z-index:1000;
 }
 
-nav{
-    margin-top:30px;
+#adminPanel.active{ right:0; }
+
+input,select,button{
+width:100%;
+margin-bottom:10px;
+padding:8px;
 }
 
-nav a{
-    margin:0 20px;
-    text-decoration:none;
-    color:#3e2f1c;
-    font-weight:500;
-    position:relative;
+.album-container{
+display:flex;
+flex-wrap:wrap;
+justify-content:center;
+gap:30px;
+padding:40px;
 }
 
-nav a::after{
-    content:'';
-    width:0%;
-    height:2px;
-    background:#3e2f1c;
-    position:absolute;
-    bottom:-5px;
-    left:0;
-    transition:0.3s;
+.album-card{
+width:240px;
+height:240px;
+background:#fff;
+display:flex;
+align-items:center;
+justify-content:center;
+cursor:pointer;
+border-radius:20px;
+box-shadow:0 10px 20px rgba(0,0,0,0.1);
+font-weight:bold;
+font-size:18px;
+transition:0.3s;
 }
 
-nav a:hover::after{
-    width:100%;
+.album-card:hover{
+transform:scale(1.05);
 }
 
-/* SECTION */
-
-section{
-    padding:100px 20px;
-    text-align:center;
-    animation:fadeUp 1.2s ease;
+#gallerySection{
+display:none;
+padding:40px;
+text-align:center;
 }
 
-@keyframes fadeUp{
-    from{opacity:0; transform:translateY(40px)}
-    to{opacity:1; transform:translateY(0)}
+#gallery{
+display:flex;
+flex-wrap:wrap;
+gap:20px;
+justify-content:center;
 }
 
-/* SLIDER */
-
-.slider{
-    max-width:1000px;
-    margin:60px auto;
-    overflow:hidden;
-    border-radius:20px;
-    box-shadow:0 20px 50px rgba(0,0,0,0.2);
+#gallery img{
+width:250px;
+height:250px;
+object-fit:cover;
+border-radius:15px;
 }
 
-.slides{
-    display:flex;
-    transition:0.8s ease;
+.deleteBtn{
+background:#3e2f1c;
+color:white;
+border:none;
+padding:5px;
+margin-top:5px;
+cursor:pointer;
 }
 
-.slides img{
-    width:100%;
-    height:520px;
-    object-fit:cover;
+.toggleBtn{
+margin:20px auto;
+display:block;
+padding:10px;
+background:#3e2f1c;
+color:white;
+border:none;
+cursor:pointer;
 }
-
-/* GALLERY */
-
-.album{
-    margin-bottom:100px;
-}
-
-.gallery{
-    display:flex;
-    flex-wrap:wrap;
-    justify-content:center;
-    gap:30px;
-}
-
-.gallery img{
-    width:270px;
-    height:270px;
-    object-fit:cover;
-    border-radius:15px;
-    cursor:pointer;
-    transition:0.5s;
-    box-shadow:0 15px 30px rgba(0,0,0,0.15);
-}
-
-.gallery img:hover{
-    transform:scale(1.12);
-}
-
-/* POPUP */
-
-#popup{
-    position:fixed;
-    top:0;
-    left:0;
-    width:100%;
-    height:100%;
-    background:rgba(0,0,0,0.85);
-    display:none;
-    justify-content:center;
-    align-items:center;
-    z-index:999;
-}
-
-#popup img{
-    max-width:90%;
-    max-height:90%;
-    border-radius:15px;
-}
-
-#popup span{
-    position:absolute;
-    top:30px;
-    right:40px;
-    font-size:40px;
-    color:white;
-    cursor:pointer;
-}
-
-/* ABOUT */
-
-.about{
-    max-width:800px;
-    margin:auto;
-    line-height:1.9;
-    font-size:18px;
-}
-
-/* SOCIAL */
-
-.social-section{
-    padding:80px 20px;
-    background:#3e2f1c;
-    color:white;
-}
-
-.social-icons i{
-    font-size:40px;
-    margin:20px;
-    transition:0.3s;
-}
-
-.social-icons i:hover{
-    transform:scale(1.3);
-}
-
-/* FOOTER */
-
-footer{
-    padding:25px;
-    text-align:center;
-    font-size:14px;
-}
-
-/* ===== INTERACTIVE BRUSH CURSOR ===== */
-
-.brush-cursor{
-  position: fixed;
-  width: 22px;
-  height: 22px;
-  border-radius: 50%;
-  pointer-events: none;
-  background: radial-gradient(circle, rgba(62,47,28,0.9) 0%, rgba(62,47,28,0.3) 60%, transparent 100%);
-  mix-blend-mode: multiply;
-  transform: translate(-50%, -50%);
-  z-index: 10000;
-}
-
-.brush-trail{
-  position: fixed;
-  width: 12px;
-  height: 12px;
-  border-radius: 50%;
-  background: rgba(62,47,28,0.3);
-  pointer-events: none;
-  z-index: 9999;
-  animation: fadeOut 0.8s forwards;
-}
-
-@keyframes fadeOut{
-  to{
-    opacity: 0;
-    transform: scale(2);
-  }
-}
-
 </style>
 </head>
 
-<body id="top">
+<body>
 
 <header>
 <h1>Debapriya Arts</h1>
-<img src="profile.jpg" class="profile-img">
-<p>Where imagination flows into handcrafted elegance — phone case art, bottle art, sketches and timeless calligraphy.</p>
-
-<nav>
-<a href="#top">Home</a>
-<a href="#gallery">Gallery</a>
-<a href="#about">About</a>
-<a href="#social">Social</a>
-</nav>
+<div class="burger" onclick="toggleAdmin()">☰</div>
 </header>
 
-<section>
-<div class="slider">
-<div class="slides" id="slide">
-<img src="phone1.jpg">
-<img src="bottle1.jpg">
-<img src="sketch1.jpg">
-<img src="calligraphy1.jpg">
-<img src="drawing1.jpg">
-</div>
-</div>
-</section>
+<!-- ADMIN PANEL -->
+<div id="adminPanel">
+<h3>Admin Login</h3>
+<input type="email" id="email" placeholder="Email">
+<input type="password" id="password" placeholder="Password">
+<button onclick="login()">Login</button>
+<button onclick="logout()">Logout</button>
 
-<section id="gallery">
-<h2>Art Collections</h2>
+<hr>
 
-<div class="album">
-<h3>Phone Case Art</h3>
-<div class="gallery">
-<img src="phone1.jpg" onclick="openPopup(this.src)">
-<img src="phone2.jpg" onclick="openPopup(this.src)">
-<img src="phone3.jpg" onclick="openPopup(this.src)">
-</div>
+<h3>Upload Image</h3>
+<select id="albumSelect">
+<option value="phone">Phone Case</option>
+<option value="bottle">Bottle Art</option>
+<option value="sketch">Sketches</option>
+<option value="drawing">Drawings</option>
+<option value="calligraphy">Calligraphy</option>
+</select>
+<input type="file" id="imageUpload">
+<button onclick="uploadImage()">Upload</button>
 </div>
 
-</section>
-
-<section id="about">
-<h2>About My Art</h2>
-<p class="about">
-Art is storytelling through texture, light and emotion.
-Each creation is crafted with passion and imagination.
-Debapriya Arts transforms everyday objects into expressive works of art.
-</p>
-</section>
-
-<section class="social-section" id="social">
-<h2>Connect With Me</h2>
-<div class="social-icons">
-<a href="https://instagram.com/YOURUSERNAME" target="_blank"><i class="fab fa-instagram"></i></a>
-<a href="https://facebook.com/YOURUSERNAME" target="_blank"><i class="fab fa-facebook"></i></a>
-</div>
-</section>
-
-<footer>
-© 2026 Debapriya Arts — Luxury Art Experience
-</footer>
-
-<div id="popup">
-<span onclick="closePopup()">×</span>
-<img id="popup-img">
+<!-- HOME -->
+<div class="album-container" id="home">
+<div class="album-card" onclick="openAlbum('phone')">Phone Case</div>
+<div class="album-card" onclick="openAlbum('bottle')">Bottle Art</div>
+<div class="album-card" onclick="openAlbum('sketch')">Sketches</div>
+<div class="album-card" onclick="openAlbum('drawing')">Drawings</div>
+<div class="album-card" onclick="openAlbum('calligraphy')">Calligraphy</div>
 </div>
 
-<div class="brush-cursor" id="brush"></div>
+<!-- GALLERY -->
+<div id="gallerySection">
+<h2 id="albumTitle"></h2>
+<button class="toggleBtn" onclick="toggleView()">Toggle Grid / Slideshow</button>
+<div id="gallery"></div>
+<button onclick="goHome()">Back</button>
+</div>
 
 <script>
-let index=0;
-function slideShow(){
-const slides=document.getElementById("slide");
-const total=slides.children.length;
-index++;
-if(index>=total){index=0;}
-slides.style.transform="translateX("+(-index*100)+"%)";
+const firebaseConfig = {
+  apiKey: "AIzaSyAW-xmNGlY6Tdv91Eoa0iWTzdcpT2_rE0Y",
+  authDomain: "debapriya-arts.firebaseapp.com",
+  projectId: "debapriya-arts",
+  storageBucket: "debapriya-arts.firebasestorage.app",
+  messagingSenderId: "11795860412",
+  appId: "1:11795860412:web:73df8d337c14e8a5bbb9b9"
+};
+
+firebase.initializeApp(firebaseConfig);
+
+const auth = firebase.auth();
+const db = firebase.firestore();
+const storage = firebase.storage();
+
+let currentAlbum="";
+let isGrid=true;
+let slideshowInterval;
+let isAdmin=false;
+
+/* AUTH STATE */
+auth.onAuthStateChanged(user=>{
+if(user){
+isAdmin=true;
+}else{
+isAdmin=false;
 }
-setInterval(slideShow,4000);
-
-function openPopup(src){
-document.getElementById("popup").style.display="flex";
-document.getElementById("popup-img").src=src;
-}
-function closePopup(){
-document.getElementById("popup").style.display="none";
-}
-
-/* Brush cursor effect */
-const brush = document.getElementById("brush");
-
-document.addEventListener("mousemove", e => {
-  brush.style.left = e.clientX + "px";
-  brush.style.top = e.clientY + "px";
-
-  const trail = document.createElement("div");
-  trail.className = "brush-trail";
-  trail.style.left = e.clientX + "px";
-  trail.style.top = e.clientY + "px";
-  document.body.appendChild(trail);
-
-  setTimeout(() => {
-    trail.remove();
-  }, 800);
 });
+
+/* LOGIN */
+function login(){
+const email=document.getElementById("email").value;
+const password=document.getElementById("password").value;
+auth.signInWithEmailAndPassword(email,password)
+.then(()=>alert("Admin Logged In"))
+.catch(err=>alert(err.message));
+}
+
+function logout(){
+auth.signOut();
+alert("Logged Out");
+}
+
+function toggleAdmin(){
+document.getElementById("adminPanel").classList.toggle("active");
+}
+
+/* UPLOAD */
+function uploadImage(){
+const file=document.getElementById("imageUpload").files[0];
+const album=document.getElementById("albumSelect").value;
+if(!file) return alert("Select image first");
+
+const storageRef=storage.ref(album+"/"+Date.now()+"_"+file.name);
+
+storageRef.put(file).then(snapshot=>{
+snapshot.ref.getDownloadURL().then(url=>{
+db.collection("albums").add({
+album:album,
+url:url,
+created:firebase.firestore.FieldValue.serverTimestamp()
+});
+alert("Uploaded Successfully!");
+});
+});
+}
+
+/* OPEN ALBUM */
+function openAlbum(name){
+currentAlbum=name;
+document.getElementById("home").style.display="none";
+document.getElementById("gallerySection").style.display="block";
+document.getElementById("albumTitle").innerText=name.toUpperCase();
+loadImages();
+}
+
+function goHome(){
+clearInterval(slideshowInterval);
+document.getElementById("gallerySection").style.display="none";
+document.getElementById("home").style.display="flex";
+}
+
+/* LOAD IMAGES */
+function loadImages(){
+db.collection("albums").where("album","==",currentAlbum)
+.onSnapshot(snapshot=>{
+const gallery=document.getElementById("gallery");
+gallery.innerHTML="";
+snapshot.forEach(doc=>{
+const data=doc.data();
+const div=document.createElement("div");
+
+let deleteButton="";
+if(isAdmin){
+deleteButton=`<button class="deleteBtn" onclick="deleteImage('${doc.id}','${data.url}')">Delete</button>`;
+}
+
+div.innerHTML=`
+<img src="${data.url}">
+${deleteButton}
+`;
+
+gallery.appendChild(div);
+});
+});
+}
+
+/* DELETE */
+function deleteImage(id,url){
+db.collection("albums").doc(id).delete();
+storage.refFromURL(url).delete();
+}
+
+/* GRID / SLIDESHOW */
+function toggleView(){
+const images=document.querySelectorAll("#gallery img");
+if(images.length===0) return;
+
+if(isGrid){
+let i=0;
+images.forEach(img=>img.style.display="none");
+images[0].style.display="block";
+slideshowInterval=setInterval(()=>{
+images.forEach(img=>img.style.display="none");
+images[i].style.display="block";
+i=(i+1)%images.length;
+},2000);
+}else{
+clearInterval(slideshowInterval);
+images.forEach(img=>img.style.display="block");
+}
+isGrid=!isGrid;
+}
 </script>
 
 </body>

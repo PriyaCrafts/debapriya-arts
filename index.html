@@ -8,255 +8,239 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
 <style>
-:root{
---bg:#111;
---text:#fff;
---card:#1c1c1c;
---accent:#ff4d6d;
-}
-
 body{
-margin:0;
-font-family:Arial, sans-serif;
-background:var(--bg);
-color:var(--text);
-opacity:0;
-transition:opacity 0.6s ease-in-out;
-}
-
-body.loaded{
-opacity:1;
+    margin:0;
+    font-family:Arial, sans-serif;
+    background:#0f0f0f;
+    color:white;
+    scroll-behavior:smooth;
 }
 
 header{
-text-align:center;
-padding:20px;
-background:black;
+    background:#000;
+    text-align:center;
+    padding:20px;
 }
 
-.logo{
-font-size:32px;
-font-weight:bold;
-color:var(--accent);
-}
-
-.logo span{
-font-family:cursive;
-}
-
-nav{
-margin-top:10px;
+header h1{
+    color:#ff4d6d;
+    margin:0;
 }
 
 nav a{
-color:white;
-margin:0 10px;
-text-decoration:none;
-font-weight:bold;
+    color:white;
+    margin:0 15px;
+    text-decoration:none;
+    font-weight:bold;
 }
 
 nav a:hover{
-color:var(--accent);
+    color:#ff4d6d;
+}
+
+section{
+    padding:60px 20px;
+    text-align:center;
+}
+
+.profile-img{
+    width:150px;
+    height:150px;
+    border-radius:50%;
+    object-fit:cover;
+    margin-top:20px;
+    border:4px solid #ff4d6d;
 }
 
 /* SLIDER */
 .slider{
-max-width:900px;
-margin:30px auto;
-overflow:hidden;
-border-radius:15px;
+    max-width:800px;
+    margin:40px auto;
+    overflow:hidden;
+    border-radius:10px;
 }
 
 .slides{
-display:flex;
-animation:slide 9s infinite;
+    display:flex;
+    transition:0.5s;
 }
 
 .slides img{
-width:100%;
+    width:100%;
+    height:400px;
+    object-fit:cover;
 }
 
-@keyframes slide{
-0%{transform:translateX(0);}
-33%{transform:translateX(-100%);}
-66%{transform:translateX(-200%);}
-100%{transform:translateX(0);}
+/* Gallery */
+.album{
+    margin-bottom:50px;
 }
 
-/* ALBUM CARDS */
-.album-container{
-display:flex;
-flex-wrap:wrap;
-justify-content:center;
-gap:20px;
-padding:20px;
-}
-
-.album-card{
-background:var(--card);
-width:220px;
-height:140px;
-display:flex;
-align-items:center;
-justify-content:center;
-border-radius:15px;
-cursor:pointer;
-transition:0.4s;
-font-weight:bold;
-}
-
-.album-card:hover{
-transform:translateY(-8px) scale(1.05);
-box-shadow:0 10px 20px rgba(0,0,0,0.4);
-}
-
-/* GALLERY */
 .gallery{
-display:none;
-flex-wrap:wrap;
-justify-content:center;
-gap:15px;
-padding:20px;
+    display:flex;
+    flex-wrap:wrap;
+    justify-content:center;
+    gap:15px;
 }
 
 .gallery img{
-width:250px;
-height:250px;
-object-fit:cover;
-border-radius:12px;
-cursor:pointer;
-transition:0.4s;
+    width:250px;
+    height:250px;
+    object-fit:cover;
+    border-radius:10px;
+    transition:0.3s;
 }
 
 .gallery img:hover{
-transform:scale(1.1);
-}
-
-/* LIGHTBOX */
-.lightbox{
-display:none;
-position:fixed;
-top:0;
-left:0;
-width:100%;
-height:100%;
-background:rgba(0,0,0,0.9);
-align-items:center;
-justify-content:center;
-}
-
-.lightbox img{
-max-width:90%;
-max-height:90%;
-border-radius:15px;
-}
-
-/* CONTACT */
-section{
-padding:40px 20px;
-text-align:center;
+    transform:scale(1.05);
 }
 
 form{
-max-width:400px;
-margin:auto;
+    max-width:400px;
+    margin:auto;
 }
 
 input, textarea{
-width:100%;
-padding:10px;
-margin:10px 0;
-border:none;
-border-radius:8px;
+    width:100%;
+    padding:10px;
+    margin:10px 0;
+    border:none;
+    border-radius:5px;
 }
 
 button{
-padding:10px 20px;
-background:var(--accent);
-color:white;
-border:none;
-border-radius:8px;
-cursor:pointer;
+    padding:10px 20px;
+    background:#ff4d6d;
+    color:white;
+    border:none;
+    border-radius:5px;
+    cursor:pointer;
+}
+
+button:hover{
+    background:#ff1e4d;
+}
+
+/* Back to Top Button */
+#backToTop{
+    position:fixed;
+    bottom:20px;
+    right:20px;
+    background:#ff4d6d;
+    color:white;
+    padding:10px 15px;
+    border:none;
+    border-radius:50%;
+    font-size:18px;
+    cursor:pointer;
+    display:none;
 }
 
 .social-icons i{
-font-size:28px;
-margin:10px;
-cursor:pointer;
+    font-size:30px;
+    margin:15px;
+    color:white;
+    transition:0.3s;
 }
 
 .social-icons i:hover{
-color:var(--accent);
+    color:#ff4d6d;
 }
 
-/* MOBILE */
-@media(max-width:600px){
-.album-card{width:90%;}
-.gallery img{width:90%; height:auto;}
+footer{
+    background:#000;
+    padding:20px;
 }
 </style>
 </head>
 
-<body>
+<body id="top">
 
 <header>
-<div class="logo"><span>Debapriya</span> ARTS</div>
-<nav>
-<a href="#home">Home</a>
-<a href="#gallery">Gallery</a>
-<a href="#contact">Contact</a>
-</nav>
+    <h1>Debapriya Arts</h1>
+    <img src="profile.jpg" class="profile-img" alt="Profile Picture">
+    <p>Welcome to my creative world of Phone Case Art, Bottle Art & Handmade Designs.</p>
+
+    <nav>
+        <a href="#top">Home</a>
+        <a href="#gallery">Gallery</a>
+        <a href="#about">About</a>
+        <a href="#contact">Contact</a>
+    </nav>
 </header>
 
 <!-- HOME -->
-<section id="home">
-<h2>Welcome to Debapriya Arts</h2>
+<section>
+    <h2>Featured Designs</h2>
 
-<div class="slider">
-<div class="slides">
-<img src="slide1.jpg">
-<img src="slide2.jpg">
-<img src="slide3.jpg">
-</div>
-</div>
-
-<p>Custom Phone Case Art | Bottle Art | Sketches | Calligraphy | Drawings</p>
+    <div class="slider">
+        <div class="slides" id="slide">
+            <!-- Using album images inside slider -->
+            <img src="phone1.jpg">
+            <img src="bottle1.jpg">
+            <img src="sketch1.jpg">
+            <img src="calligraphy1.jpg">
+            <img src="drawing1.jpg">
+        </div>
+    </div>
 </section>
 
 <!-- GALLERY -->
 <section id="gallery">
 <h2>Art Albums</h2>
 
-<div class="album-container">
-<div class="album-card" onclick="openAlbum('phone')">Phone Case Art</div>
-<div class="album-card" onclick="openAlbum('bottle')">Bottle Art</div>
-<div class="album-card" onclick="openAlbum('sketch')">Sketches</div>
-<div class="album-card" onclick="openAlbum('calligraphy')">Calligraphy</div>
-<div class="album-card" onclick="openAlbum('drawing')">Drawings</div>
+<div class="album">
+<h3>Phone Case Art</h3>
+<div class="gallery">
+<img src="phone1.jpg">
+<img src="phone2.jpg">
+<img src="phone3.jpg">
+</div>
 </div>
 
-<div id="phone" class="gallery">
-<img src="phone1.jpg" onclick="openLightbox(this.src)">
-<img src="phone2.jpg" onclick="openLightbox(this.src)">
+<div class="album">
+<h3>Bottle Art</h3>
+<div class="gallery">
+<img src="bottle1.jpg">
+<img src="bottle2.jpg">
+<img src="bottle3.jpg">
+</div>
 </div>
 
-<div id="bottle" class="gallery">
-<img src="bottle1.jpg" onclick="openLightbox(this.src)">
-<img src="bottle2.jpg" onclick="openLightbox(this.src)">
+<div class="album">
+<h3>Sketches</h3>
+<div class="gallery">
+<img src="sketch1.jpg">
+<img src="sketch2.jpg">
+<img src="sketch3.jpg">
+</div>
 </div>
 
-<div id="sketch" class="gallery">
-<img src="sketch1.jpg" onclick="openLightbox(this.src)">
+<div class="album">
+<h3>Calligraphy Art</h3>
+<div class="gallery">
+<img src="calligraphy1.jpg">
+<img src="calligraphy2.jpg">
+<img src="calligraphy3.jpg">
+</div>
 </div>
 
-<div id="calligraphy" class="gallery">
-<img src="calligraphy1.jpg" onclick="openLightbox(this.src)">
+<div class="album">
+<h3>Drawings</h3>
+<div class="gallery">
+<img src="drawing1.jpg">
+<img src="drawing2.jpg">
+<img src="drawing3.jpg">
+</div>
 </div>
 
-<div id="drawing" class="gallery">
-<img src="drawing1.jpg" onclick="openLightbox(this.src)">
-</div>
+</section>
 
+<!-- ABOUT -->
+<section id="about">
+<h2>About Me</h2>
+<p>Hello! I am Debapriya, a passionate artist who loves transforming simple objects into beautiful artworks.
+Each design is handmade with creativity and dedication.</p>
 </section>
 
 <!-- CONTACT -->
@@ -274,33 +258,43 @@ color:var(--accent);
 <a href="https://instagram.com/YOURUSERNAME" target="_blank">
 <i class="fab fa-instagram"></i>
 </a>
+
 <a href="https://facebook.com/YOURUSERNAME" target="_blank">
 <i class="fab fa-facebook"></i>
 </a>
 </div>
+
 </section>
 
-<div class="lightbox" id="lightbox" onclick="closeLightbox()">
-<img id="lightbox-img">
-</div>
+<footer>
+<p>© 2026 Debapriya Arts | All Rights Reserved</p>
+</footer>
+
+<!-- Back to Top Button -->
+<button id="backToTop" onclick="scrollToTop()">↑</button>
 
 <script>
-window.addEventListener("load", () => {
-document.body.classList.add("loaded");
-});
-
-function openAlbum(id){
-document.querySelectorAll('.gallery').forEach(g => g.style.display="none");
-document.getElementById(id).style.display="flex";
+let index = 0;
+function slideShow(){
+    const slides = document.getElementById("slide");
+    const total = slides.children.length;
+    index++;
+    if(index >= total){ index = 0; }
+    slides.style.transform = "translateX(" + (-index * 100) + "%)";
 }
+setInterval(slideShow, 3000);
 
-function openLightbox(src){
-document.getElementById("lightbox").style.display="flex";
-document.getElementById("lightbox-img").src = src;
-}
+window.onscroll = function(){
+    const btn = document.getElementById("backToTop");
+    if(document.body.scrollTop > 300 || document.documentElement.scrollTop > 300){
+        btn.style.display = "block";
+    } else {
+        btn.style.display = "none";
+    }
+};
 
-function closeLightbox(){
-document.getElementById("lightbox").style.display="none";
+function scrollToTop(){
+    window.scrollTo({top:0, behavior:'smooth'});
 }
 </script>
 

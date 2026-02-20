@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Debapriya Arts</title>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+<style>
+:root{
+--bg:#111;
+--text:#fff;
+--card:#1c1c1c;
+--accent:#ff4d6d;
+}
+
+body{
+margin:0;
+font-family:Arial, sans-serif;
+background:var(--bg);
+color:var(--text);
+opacity:0;
+transition:opacity 0.6s ease-in-out;
+}
+
+body.loaded{
+opacity:1;
+}
+
+header{
+text-align:center;
+padding:20px;
+background:black;
+}
+
+.logo{
+font-size:32px;
+font-weight:bold;
+color:var(--accent);
+}
+
+.logo span{
+font-family:cursive;
+}
+
+nav{
+margin-top:10px;
+}
+
+nav a{
+color:white;
+margin:0 10px;
+text-decoration:none;
+font-weight:bold;
+}
+
+nav a:hover{
+color:var(--accent);
+}
+
+/* SLIDER */
+.slider{
+max-width:900px;
+margin:30px auto;
+overflow:hidden;
+border-radius:15px;
+}
+
+.slides{
+display:flex;
+animation:slide 9s infinite;
+}
+
+.slides img{
+width:100%;
+}
+
+@keyframes slide{
+0%{transform:translateX(0);}
+33%{transform:translateX(-100%);}
+66%{transform:translateX(-200%);}
+100%{transform:translateX(0);}
+}
+
+/* ALBUM CARDS */
+.album-container{
+display:flex;
+flex-wrap:wrap;
+justify-content:center;
+gap:20px;
+padding:20px;
+}
+
+.album-card{
+background:var(--card);
+width:220px;
+height:140px;
+display:flex;
+align-items:center;
+justify-content:center;
+border-radius:15px;
+cursor:pointer;
+transition:0.4s;
+font-weight:bold;
+}
+
+.album-card:hover{
+transform:translateY(-8px) scale(1.05);
+box-shadow:0 10px 20px rgba(0,0,0,0.4);
+}
+
+/* GALLERY */
+.gallery{
+display:none;
+flex-wrap:wrap;
+justify-content:center;
+gap:15px;
+padding:20px;
+}
+
+.gallery img{
+width:250px;
+height:250px;
+object-fit:cover;
+border-radius:12px;
+cursor:pointer;
+transition:0.4s;
+}
+
+.gallery img:hover{
+transform:scale(1.1);
+}
+
+/* LIGHTBOX */
+.lightbox{
+display:none;
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:rgba(0,0,0,0.9);
+align-items:center;
+justify-content:center;
+}
+
+.lightbox img{
+max-width:90%;
+max-height:90%;
+border-radius:15px;
+}
+
+/* CONTACT */
+section{
+padding:40px 20px;
+text-align:center;
+}
+
+form{
+max-width:400px;
+margin:auto;
+}
+
+input, textarea{
+width:100%;
+padding:10px;
+margin:10px 0;
+border:none;
+border-radius:8px;
+}
+
+button{
+padding:10px 20px;
+background:var(--accent);
+color:white;
+border:none;
+border-radius:8px;
+cursor:pointer;
+}
+
+.social-icons i{
+font-size:28px;
+margin:10px;
+cursor:pointer;
+}
+
+.social-icons i:hover{
+color:var(--accent);
+}
+
+/* MOBILE */
+@media(max-width:600px){
+.album-card{width:90%;}
+.gallery img{width:90%; height:auto;}
+}
+</style>
+</head>
+
+<body>
+
+<header>
+<div class="logo"><span>Debapriya</span> ARTS</div>
+<nav>
+<a href="#home">Home</a>
+<a href="#gallery">Gallery</a>
+<a href="#contact">Contact</a>
+</nav>
+</header>
+
+<!-- HOME -->
+<section id="home">
+<h2>Welcome to Debapriya Arts</h2>
+
+<div class="slider">
+<div class="slides">
+<img src="slide1.jpg">
+<img src="slide2.jpg">
+<img src="slide3.jpg">
+</div>
+</div>
+
+<p>Custom Phone Case Art | Bottle Art | Sketches | Calligraphy | Drawings</p>
+</section>
+
+<!-- GALLERY -->
+<section id="gallery">
+<h2>Art Albums</h2>
+
+<div class="album-container">
+<div class="album-card" onclick="openAlbum('phone')">Phone Case Art</div>
+<div class="album-card" onclick="openAlbum('bottle')">Bottle Art</div>
+<div class="album-card" onclick="openAlbum('sketch')">Sketches</div>
+<div class="album-card" onclick="openAlbum('calligraphy')">Calligraphy</div>
+<div class="album-card" onclick="openAlbum('drawing')">Drawings</div>
+</div>
+
+<div id="phone" class="gallery">
+<img src="phone1.jpg" onclick="openLightbox(this.src)">
+<img src="phone2.jpg" onclick="openLightbox(this.src)">
+</div>
+
+<div id="bottle" class="gallery">
+<img src="bottle1.jpg" onclick="openLightbox(this.src)">
+<img src="bottle2.jpg" onclick="openLightbox(this.src)">
+</div>
+
+<div id="sketch" class="gallery">
+<img src="sketch1.jpg" onclick="openLightbox(this.src)">
+</div>
+
+<div id="calligraphy" class="gallery">
+<img src="calligraphy1.jpg" onclick="openLightbox(this.src)">
+</div>
+
+<div id="drawing" class="gallery">
+<img src="drawing1.jpg" onclick="openLightbox(this.src)">
+</div>
+
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+<h2>Contact Me</h2>
+
+<form>
+<input type="text" placeholder="Your Name" required>
+<input type="email" placeholder="Your Email" required>
+<textarea rows="4" placeholder="Your Message"></textarea>
+<button type="submit">Send Message</button>
+</form>
+
+<div class="social-icons">
+<a href="https://instagram.com/YOURUSERNAME" target="_blank">
+<i class="fab fa-instagram"></i>
+</a>
+<a href="https://facebook.com/YOURUSERNAME" target="_blank">
+<i class="fab fa-facebook"></i>
+</a>
+</div>
+</section>
+
+<div class="lightbox" id="lightbox" onclick="closeLightbox()">
+<img id="lightbox-img">
+</div>
+
+<script>
+window.addEventListener("load", () => {
+document.body.classList.add("loaded");
+});
+
+function openAlbum(id){
+document.querySelectorAll('.gallery').forEach(g => g.style.display="none");
+document.getElementById(id).style.display="flex";
+}
+
+function openLightbox(src){
+document.getElementById("lightbox").style.display="flex";
+document.getElementById("lightbox-img").src = src;
+}
+
+function closeLightbox(){
+document.getElementById("lightbox").style.display="none";
+}
+</script>
+
+</body>
+</html>

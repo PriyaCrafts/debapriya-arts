@@ -7,26 +7,61 @@
 
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600&family=Montserrat:wght@300;400&display=swap" rel="stylesheet">
 
-<!-- Firebase CDN -->
+<!-- Firebase -->
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-storage-compat.js"></script>
 
 <style>
+
+/* Fade In */
 body{
 margin:0;
 font-family:'Montserrat', sans-serif;
-background:linear-gradient(-45deg,#f5e6d3,#efe0c8,#f8ecdd,#e9d5b9);
-background-size:400% 400%;
-animation:bgMove 15s ease infinite;
-color:#3e2f1c;
+color:#4a3a2a;
+overflow-x:hidden;
+animation:fadeIn 1.5s ease-in-out;
+cursor:url('https://cur.cursors-4u.net/others/oth-6/oth589.cur'), auto;
 }
 
-@keyframes bgMove{
-0%{background-position:0% 50%}
-50%{background-position:100% 50%}
-100%{background-position:0% 50%}
+@keyframes fadeIn{
+from{opacity:0;}
+to{opacity:1;}
+}
+
+/* Watercolor Background */
+body::before{
+content:"";
+position:fixed;
+width:200%;
+height:200%;
+background:radial-gradient(circle at 30% 30%, #f5e6d3, transparent 60%),
+radial-gradient(circle at 70% 70%, #ead8c0, transparent 60%),
+radial-gradient(circle at 50% 80%, #f3e2cc, transparent 60%);
+animation:waterMove 20s infinite alternate ease-in-out;
+z-index:-2;
+}
+
+@keyframes waterMove{
+0%{transform:translate(0,0);}
+100%{transform:translate(-10%, -10%);}
+}
+
+/* Floating particles */
+.particle{
+position:fixed;
+width:8px;
+height:8px;
+background:rgba(255,255,255,0.6);
+border-radius:50%;
+animation:float 15s linear infinite;
+z-index:-1;
+}
+
+@keyframes float{
+0%{transform:translateY(100vh);}
+100%{transform:translateY(-10vh);}
 }
 
 header{
@@ -37,8 +72,8 @@ position:relative;
 
 header h1{
 font-family:'Cormorant Garamond', serif;
-font-size:60px;
-margin:0;
+font-size:70px;
+letter-spacing:3px;
 }
 
 .burger{
@@ -49,6 +84,7 @@ font-size:30px;
 cursor:pointer;
 }
 
+/* Admin Panel */
 #adminPanel{
 position:fixed;
 top:0;
@@ -62,7 +98,6 @@ transition:0.4s;
 overflow:auto;
 z-index:1000;
 }
-
 #adminPanel.active{ right:0; }
 
 input,select,button{
@@ -90,13 +125,9 @@ cursor:pointer;
 border-radius:20px;
 box-shadow:0 10px 20px rgba(0,0,0,0.1);
 font-weight:bold;
-font-size:18px;
 transition:0.3s;
 }
-
-.album-card:hover{
-transform:scale(1.05);
-}
+.album-card:hover{ transform:scale(1.05); }
 
 #gallerySection{
 display:none;
@@ -123,7 +154,6 @@ background:#3e2f1c;
 color:white;
 border:none;
 padding:5px;
-margin-top:5px;
 cursor:pointer;
 }
 
@@ -136,26 +166,96 @@ color:white;
 border:none;
 cursor:pointer;
 }
+
+/* Ink Splash */
+.ink-splash{
+position:fixed;
+width:20px;
+height:20px;
+background:radial-gradient(circle, rgba(62,47,28,0.8) 0%, rgba(62,47,28,0.4) 40%, transparent 70%);
+border-radius:50%;
+pointer-events:none;
+animation:splash 0.6s ease-out forwards;
+z-index:9999;
+}
+
+@keyframes splash{
+0%{transform:scale(1);opacity:1;}
+100%{transform:scale(8);opacity:0;}
+}
+
+/* Music Button */
+#musicControl{
+position:fixed;
+bottom:20px;
+right:20px;
+background:rgba(255,255,255,0.8);
+padding:12px 15px;
+border-radius:50%;
+font-size:20px;
+cursor:pointer;
+box-shadow:0 5px 15px rgba(0,0,0,0.2);
+transition:0.3s;
+z-index:1000;
+}
+#musicControl:hover{
+transform:scale(1.1);
+background:#f5e6d3;
+}
+
+/* About */
+#about{
+padding:80px 20px;
+text-align:center;
+background:rgba(255,255,255,0.6);
+backdrop-filter:blur(10px);
+margin-top:60px;
+}
+#about h2{
+font-family:'Cormorant Garamond', serif;
+font-size:40px;
+}
+.socials a{
+margin:0 15px;
+font-size:20px;
+text-decoration:none;
+color:#3e2f1c;
+transition:0.3s;
+}
+.socials a:hover{
+color:#a67c52;
+transform:scale(1.2);
+}
+
 </style>
 </head>
 
 <body>
+
+<!-- Background Music -->
+<audio id="bgMusic" loop>
+<source src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_c8c8a73467.mp3?filename=soft-piano-ambient-110397.mp3" type="audio/mp3">
+</audio>
+
+<div id="musicControl" onclick="toggleMusic()">🎵</div>
 
 <header>
 <h1>Debapriya Arts</h1>
 <div class="burger" onclick="toggleAdmin()">☰</div>
 </header>
 
-<!-- ADMIN PANEL -->
+<!-- Admin Panel -->
 <div id="adminPanel">
+<button onclick="goHome()">⬅ Back to Home</button>
+
+<div id="loginSection">
 <h3>Admin Login</h3>
 <input type="email" id="email" placeholder="Email">
 <input type="password" id="password" placeholder="Password">
 <button onclick="login()">Login</button>
-<button onclick="logout()">Logout</button>
+</div>
 
-<hr>
-
+<div id="uploadSection" style="display:none;">
 <h3>Upload Image</h3>
 <select id="albumSelect">
 <option value="phone">Phone Case</option>
@@ -166,9 +266,11 @@ cursor:pointer;
 </select>
 <input type="file" id="imageUpload">
 <button onclick="uploadImage()">Upload</button>
+<button onclick="logout()">Logout</button>
+</div>
 </div>
 
-<!-- HOME -->
+<!-- Albums -->
 <div class="album-container" id="home">
 <div class="album-card" onclick="openAlbum('phone')">Phone Case</div>
 <div class="album-card" onclick="openAlbum('bottle')">Bottle Art</div>
@@ -177,7 +279,7 @@ cursor:pointer;
 <div class="album-card" onclick="openAlbum('calligraphy')">Calligraphy</div>
 </div>
 
-<!-- GALLERY -->
+<!-- Gallery -->
 <div id="gallerySection">
 <h2 id="albumTitle"></h2>
 <button class="toggleBtn" onclick="toggleView()">Toggle Grid / Slideshow</button>
@@ -185,41 +287,103 @@ cursor:pointer;
 <button onclick="goHome()">Back</button>
 </div>
 
+<!-- About -->
+<section id="about">
+<h2>About Debapriya Arts</h2>
+<p>
+A handcrafted luxury art portfolio showcasing custom phone cases, bottle art,
+sketches, drawings, and calligraphy created with passion and elegance.
+</p>
+<div class="socials">
+<a href="https://instagram.com/YOUR_INSTAGRAM" target="_blank">📸 Instagram</a>
+<a href="https://facebook.com/YOUR_FACEBOOK" target="_blank">📘 Facebook</a>
+</div>
+</section>
+
 <script>
-const firebaseConfig = {
-  apiKey: "AIzaSyAW-xmNGlY6Tdv91Eoa0iWTzdcpT2_rE0Y",
-  authDomain: "debapriya-arts.firebaseapp.com",
-  projectId: "debapriya-arts",
-  storageBucket: "debapriya-arts.firebasestorage.app",
-  messagingSenderId: "11795860412",
-  appId: "1:11795860412:web:73df8d337c14e8a5bbb9b9"
+
+/* Floating particles */
+for(let i=0;i<25;i++){
+let p=document.createElement("div");
+p.className="particle";
+p.style.left=Math.random()*100+"vw";
+p.style.animationDuration=(10+Math.random()*10)+"s";
+p.style.opacity=Math.random();
+document.body.appendChild(p);
+}
+
+/* Ink splash */
+document.addEventListener("click", function(e){
+const splash=document.createElement("div");
+splash.className="ink-splash";
+splash.style.left=e.clientX+"px";
+splash.style.top=e.clientY+"px";
+document.body.appendChild(splash);
+setTimeout(()=>{splash.remove();},600);
+});
+
+/* Music */
+const music=document.getElementById("bgMusic");
+let isPlaying=false;
+
+function toggleMusic(){
+if(isPlaying){
+music.pause();
+isPlaying=false;
+musicControl.innerHTML="🎵";
+}else{
+music.volume=0.2;
+music.play();
+isPlaying=true;
+musicControl.innerHTML="🔊";
+}
+}
+
+document.addEventListener("click", function startMusicOnce(){
+if(!isPlaying){
+music.volume=0.2;
+music.play();
+isPlaying=true;
+}
+document.removeEventListener("click", startMusicOnce);
+});
+
+/* Firebase */
+const firebaseConfig={
+apiKey:"AIzaSyAW-xmNGlY6Tdv91Eoa0iWTzdcpT2_rE0Y",
+authDomain:"debapriya-arts.firebaseapp.com",
+projectId:"debapriya-arts",
+storageBucket:"debapriya-arts.firebasestorage.app",
+messagingSenderId:"11795860412",
+appId:"1:11795860412:web:73df8d337c14e8a5bbb9b9"
 };
 
 firebase.initializeApp(firebaseConfig);
 
-const auth = firebase.auth();
-const db = firebase.firestore();
-const storage = firebase.storage();
+const auth=firebase.auth();
+const db=firebase.firestore();
+const storage=firebase.storage();
 
 let currentAlbum="";
+let isAdmin=false;
 let isGrid=true;
 let slideshowInterval;
-let isAdmin=false;
 
-/* AUTH STATE */
+/* Auth state */
 auth.onAuthStateChanged(user=>{
 if(user){
 isAdmin=true;
+loginSection.style.display="none";
+uploadSection.style.display="block";
 }else{
 isAdmin=false;
+loginSection.style.display="block";
+uploadSection.style.display="none";
 }
 });
 
-/* LOGIN */
 function login(){
-const email=document.getElementById("email").value;
-const password=document.getElementById("password").value;
-auth.signInWithEmailAndPassword(email,password)
+auth.signInWithEmailAndPassword(email.value,password.value)
 .then(()=>alert("Admin Logged In"))
 .catch(err=>alert(err.message));
 }
@@ -230,76 +394,57 @@ alert("Logged Out");
 }
 
 function toggleAdmin(){
-document.getElementById("adminPanel").classList.toggle("active");
+adminPanel.classList.toggle("active");
 }
 
-/* UPLOAD */
 function uploadImage(){
-const file=document.getElementById("imageUpload").files[0];
-const album=document.getElementById("albumSelect").value;
+if(!isAdmin){alert("Only admin can upload");return;}
+const file=imageUpload.files[0];
+const album=albumSelect.value;
 if(!file) return alert("Select image first");
 
-const storageRef=storage.ref(album+"/"+Date.now()+"_"+file.name);
-
-storageRef.put(file).then(snapshot=>{
-snapshot.ref.getDownloadURL().then(url=>{
-db.collection("albums").add({
-album:album,
-url:url,
-created:firebase.firestore.FieldValue.serverTimestamp()
-});
-alert("Uploaded Successfully!");
-});
+const ref=storage.ref(album+"/"+Date.now()+"_"+file.name);
+ref.put(file).then(s=>s.ref.getDownloadURL())
+.then(url=>{
+db.collection("albums").add({album,url});
+alert("Uploaded!");
 });
 }
 
-/* OPEN ALBUM */
 function openAlbum(name){
 currentAlbum=name;
-document.getElementById("home").style.display="none";
-document.getElementById("gallerySection").style.display="block";
-document.getElementById("albumTitle").innerText=name.toUpperCase();
+home.style.display="none";
+gallerySection.style.display="block";
+albumTitle.innerText=name.toUpperCase();
 loadImages();
 }
 
 function goHome(){
+gallerySection.style.display="none";
+home.style.display="flex";
 clearInterval(slideshowInterval);
-document.getElementById("gallerySection").style.display="none";
-document.getElementById("home").style.display="flex";
 }
 
-/* LOAD IMAGES */
 function loadImages(){
 db.collection("albums").where("album","==",currentAlbum)
 .onSnapshot(snapshot=>{
-const gallery=document.getElementById("gallery");
 gallery.innerHTML="";
 snapshot.forEach(doc=>{
 const data=doc.data();
-const div=document.createElement("div");
-
-let deleteButton="";
+let del="";
 if(isAdmin){
-deleteButton=`<button class="deleteBtn" onclick="deleteImage('${doc.id}','${data.url}')">Delete</button>`;
+del=`<button class="deleteBtn" onclick="deleteImage('${doc.id}','${data.url}')">Delete</button>`;
 }
-
-div.innerHTML=`
-<img src="${data.url}">
-${deleteButton}
-`;
-
-gallery.appendChild(div);
+gallery.innerHTML+=`<div><img src="${data.url}">${del}</div>`;
 });
 });
 }
 
-/* DELETE */
 function deleteImage(id,url){
 db.collection("albums").doc(id).delete();
 storage.refFromURL(url).delete();
 }
 
-/* GRID / SLIDESHOW */
 function toggleView(){
 const images=document.querySelectorAll("#gallery img");
 if(images.length===0) return;
@@ -319,6 +464,7 @@ images.forEach(img=>img.style.display="block");
 }
 isGrid=!isGrid;
 }
+
 </script>
 
 </body>

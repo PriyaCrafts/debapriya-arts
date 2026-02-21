@@ -11,37 +11,57 @@
 *{margin:0;padding:0;box-sizing:border-box;font-family:'Poppins',sans-serif;scroll-behavior:smooth;}
 
 body{
-cursor:none;
 background:linear-gradient(-45deg,#fce3ff,#e3f0ff,#fff0f5,#e9e4ff);
 background-size:400% 400%;
-animation:gradient 18s ease infinite, pageFade 1.2s ease forwards;
+animation:gradient 18s ease infinite, fadeIn 1.2s ease forwards;
 overflow-x:hidden;
 opacity:0;
 transition:.4s;
 }
 
-@keyframes pageFade{to{opacity:1;}}
+@keyframes fadeIn{to{opacity:1;}}
 @keyframes gradient{
 0%{background-position:0% 50%;}
 50%{background-position:100% 50%;}
 100%{background-position:0% 50%;}
 }
 
-/* ===== MOBILE AUTO DETECT ===== */
-@media (hover: none) and (pointer: coarse) {
-  body{cursor:auto;}
-  .brush{display:none;}
+/* ===== DESKTOP CURSOR ONLY ===== */
+@media (hover: hover) and (pointer: fine) {
+  body{cursor:none;}
+}
+@media (hover: none){
+  .brush, .trail{display:none;}
 }
 
-/* BRUSH CURSOR */
+/* BRUSH */
 .brush{
 position:fixed;
-width:30px;height:30px;
+top:0;
+left:0;
+width:40px;
+height:40px;
 background:url('https://cdn-icons-png.flaticon.com/512/1829/1829586.png') no-repeat center;
 background-size:contain;
 pointer-events:none;
-z-index:9999;
-transform:translate(-50%,-50%);
+z-index:99999;
+transform:translate3d(0,0,0);
+will-change:transform;
+}
+
+/* TRAIL */
+.trail{
+position:fixed;
+width:10px;
+height:10px;
+border-radius:50%;
+pointer-events:none;
+z-index:99998;
+opacity:.7;
+animation:trailFade .6s forwards;
+}
+@keyframes trailFade{
+to{opacity:0; transform:scale(2);}
 }
 
 /* FLOATING BUBBLES */
@@ -158,16 +178,12 @@ padding:20px;overflow:auto;z-index:2000;
 opacity:0;transition:opacity .5s;
 }
 #albumView.active{opacity:1;}
-
 .grid{
 display:grid;
 grid-template-columns:repeat(auto-fit,minmax(150px,1fr));
 gap:15px;
 }
-.grid img{
-width:100%;
-border-radius:15px;
-}
+.grid img{width:100%;border-radius:15px;}
 
 /* VIEWER */
 .viewer{
@@ -186,32 +202,16 @@ padding:80px 20px;
 text-align:center;
 background:rgba(255,255,255,.6);
 }
-.social{
-margin-top:20px;
-}
 .social a img{
-width:35px;
-margin:0 15px;
-transition:.3s;
+width:35px;margin:0 15px;transition:.3s;
 }
-.social a img:hover{
-transform:scale(1.2);
-}
+.social a img:hover{transform:scale(1.2);}
 
 /* DARK MODE */
 body.dark{background:#111;color:white;}
 body.dark nav{background:rgba(0,0,0,.6);}
 body.dark #about{background:#222;}
 body.dark nav a{color:white;}
-
-/* ===== MOBILE OPTIMIZATION ===== */
-@media(max-width:768px){
-nav{padding:10px 20px;margin:5px;}
-.hero h1{font-size:38px;}
-.hero p{font-size:16px;}
-.albums{padding:80px 20px;}
-.card img{height:180px;}
-}
 </style>
 </head>
 
@@ -281,11 +281,31 @@ window.addEventListener("load",()=>setTimeout(()=>preloader.style.display="none"
 /* DARK MODE */
 themeToggle.onclick=()=>document.body.classList.toggle("dark");
 
-/* BRUSH */
-document.addEventListener("mousemove",e=>{
-brush.style.left=e.pageX+"px";
-brush.style.top=e.pageY+"px";
+/* SMOOTH BRUSH + TRAIL */
+const brush=document.getElementById("brush");
+let mouseX=0,mouseY=0,currentX=0,currentY=0;
+
+document.addEventListener("mousemove",(e)=>{
+mouseX=e.clientX-20;
+mouseY=e.clientY-20;
+
+/* create trail */
+let t=document.createElement("div");
+t.className="trail";
+t.style.left=e.clientX+"px";
+t.style.top=e.clientY+"px";
+t.style.background=`hsl(${Math.random()*360},70%,70%)`;
+document.body.appendChild(t);
+setTimeout(()=>t.remove(),600);
 });
+
+function animateBrush(){
+currentX+=(mouseX-currentX)*0.25;
+currentY+=(mouseY-currentY)*0.25;
+brush.style.transform=`translate3d(${currentX}px,${currentY}px,0) rotate(${(mouseX-currentX)*0.1}deg)`;
+requestAnimationFrame(animateBrush);
+}
+animateBrush();
 
 /* FLOATING BUBBLES */
 for(let i=0;i<15;i++){

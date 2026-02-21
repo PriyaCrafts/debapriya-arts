@@ -3,141 +3,164 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Debapriya Art</title>
+<title>Debapriya Art - Masterpiece Edition</title>
 
 <style>
-*{margin:0;padding:0;box-sizing:border-box;font-family: 'Poppins',sans-serif;}
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Poppins',sans-serif}
 body{
-    background: linear-gradient(-45deg,#1e1e2f,#302b63,#24243e,#1f1c2c);
+    background:linear-gradient(-45deg,#1e1e2f,#302b63,#24243e,#1f1c2c);
     background-size:400% 400%;
-    animation:gradientBG 15s ease infinite;
+    animation:gradient 15s ease infinite;
     color:white;
     overflow-x:hidden;
     transition:0.4s;
 }
-@keyframes gradientBG{
-    0%{background-position:0% 50%}
-    50%{background-position:100% 50%}
-    100%{background-position:0% 50%}
+@keyframes gradient{
+0%{background-position:0% 50%}
+50%{background-position:100% 50%}
+100%{background-position:0% 50%}
 }
 
 /* Preloader */
 #loader{
-    position:fixed;
-    width:100%;
-    height:100%;
-    background:#111;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    z-index:9999;
+position:fixed;
+width:100%;
+height:100%;
+background:#111;
+display:flex;
+justify-content:center;
+align-items:center;
+z-index:9999;
 }
 #loader span{
-    width:40px;
-    height:40px;
-    border:5px solid white;
-    border-top:5px solid transparent;
-    border-radius:50%;
-    animation:spin 1s linear infinite;
+width:50px;height:50px;
+border:5px solid white;
+border-top:5px solid transparent;
+border-radius:50%;
+animation:spin 1s linear infinite;
 }
-@keyframes spin{
-    100%{transform:rotate(360deg)}
+@keyframes spin{100%{transform:rotate(360deg)}}
+
+/* Floating blobs */
+.blob{
+position:fixed;
+width:400px;height:400px;
+background:radial-gradient(circle,rgba(255,0,150,0.4),transparent);
+border-radius:50%;
+filter:blur(100px);
+animation:float 20s infinite alternate;
+z-index:-1;
+}
+.blob2{
+right:-150px;top:200px;
+background:radial-gradient(circle,rgba(0,200,255,0.4),transparent);
+}
+@keyframes float{
+0%{transform:translateY(-50px)}
+100%{transform:translateY(50px)}
 }
 
 /* Header */
-header{
-    padding:20px;
-    text-align:center;
-}
-h1{
-    font-size:40px;
-}
-.tagline{
-    opacity:0.7;
-    margin-top:5px;
-}
+header{text-align:center;padding:40px}
+h1{font-size:45px}
+.tagline{opacity:.7;margin-top:10px}
 
 /* Toggle */
 .toggle{
-    position:fixed;
-    top:20px;
-    right:20px;
-    cursor:pointer;
+position:fixed;top:20px;right:20px;
+cursor:pointer;font-size:22px;
 }
 
 /* Cards */
 .container{
-    display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
-    gap:30px;
-    padding:40px;
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+gap:30px;padding:40px;
 }
 .card{
-    backdrop-filter:blur(15px);
-    background:rgba(255,255,255,0.1);
-    border-radius:20px;
-    padding:20px;
-    text-align:center;
-    cursor:pointer;
-    transition:0.4s;
+background:rgba(255,255,255,0.1);
+backdrop-filter:blur(15px);
+border-radius:20px;
+padding:20px;
+text-align:center;
+cursor:pointer;
+transition:.4s;
+opacity:0;
+transform:translateY(50px);
+}
+.card.show{
+opacity:1;
+transform:translateY(0);
 }
 .card img{
-    width:100%;
-    border-radius:15px;
+width:100%;
+border-radius:15px;
 }
 .card:hover{
-    transform:translateY(-10px);
-    box-shadow:0 0 25px rgba(255,255,255,0.4);
+transform:translateY(-10px);
+box-shadow:0 0 25px rgba(255,255,255,0.5);
 }
 
-/* Album view */
+/* Album */
 #album{
-    display:none;
-    padding:40px;
+display:none;
+padding:40px;
+animation:fade .5s ease;
 }
-#album h2{
-    margin-bottom:20px;
-}
+@keyframes fade{from{opacity:0}to{opacity:1}}
 .gallery{
-    display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
-    gap:20px;
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+gap:20px;
 }
 .gallery img{
-    width:100%;
-    border-radius:15px;
-    transition:0.4s;
+width:100%;
+border-radius:15px;
+transition:.4s;
 }
 .gallery img:hover{
-    transform:scale(1.05);
-    box-shadow:0 0 20px white;
+transform:scale(1.05);
+box-shadow:0 0 20px white;
 }
 .backBtn{
-    margin-bottom:20px;
-    padding:10px 20px;
-    border:none;
-    border-radius:10px;
-    cursor:pointer;
+margin-bottom:20px;
+padding:10px 20px;
+border:none;
+border-radius:10px;
+cursor:pointer;
+}
+
+/* Artistic cursor */
+.cursor{
+width:20px;height:20px;
+border:2px solid white;
+border-radius:50%;
+position:fixed;
+pointer-events:none;
+transform:translate(-50%,-50%);
+transition:.1s;
+z-index:999;
 }
 
 /* Dark mode */
 .dark{
-    background:#f5f5f5;
-    color:#111;
+background:#f5f5f5;
+color:#111;
 }
-.dark .card{
-    background:rgba(0,0,0,0.1);
-}
+.dark .card{background:rgba(0,0,0,0.1)}
 </style>
 </head>
 
 <body>
 
 <div id="loader"><span></span></div>
+<div class="blob"></div>
+<div class="blob blob2"></div>
+<div class="cursor" id="cursor"></div>
 
 <header>
-    <h1>Debapriya Art</h1>
-    <div class="tagline">Where Creativity Meets Imagination</div>
+<h1>Debapriya Art</h1>
+<div class="tagline">Where Creativity Meets Imagination</div>
 </header>
 
 <div class="toggle" onclick="toggleMode()">🌙</div>
@@ -145,36 +168,36 @@ h1{
 <div class="container" id="home">
 
 <div class="card" onclick="openAlbum('sketches')">
-    <img src="preview/sketches.jpg">
-    <h3>Sketches</h3>
+<img src="preview/sketches.jpg">
+<h3>Sketches</h3>
 </div>
 
 <div class="card" onclick="openAlbum('calligraphy')">
-    <img src="preview/calligraphy.jpg">
-    <h3>Calligraphy</h3>
+<img src="preview/calligraphy.jpg">
+<h3>Calligraphy</h3>
 </div>
 
 <div class="card" onclick="openAlbum('phonecase')">
-    <img src="preview/phonecase.jpg">
-    <h3>Phone Case Art</h3>
+<img src="preview/phonecase.jpg">
+<h3>Phone Case Art</h3>
 </div>
 
 <div class="card" onclick="openAlbum('drawings')">
-    <img src="preview/drawings.jpg">
-    <h3>Drawings</h3>
+<img src="preview/drawings.jpg">
+<h3>Drawings</h3>
 </div>
 
 <div class="card" onclick="openAlbum('bottle')">
-    <img src="preview/bottle.jpg">
-    <h3>Bottle Art</h3>
+<img src="preview/bottle.jpg">
+<h3>Bottle Art</h3>
 </div>
 
 </div>
 
 <div id="album">
-    <button class="backBtn" onclick="goBack()">⬅ Back</button>
-    <h2 id="albumTitle"></h2>
-    <div class="gallery" id="gallery"></div>
+<button class="backBtn" onclick="goBack()">⬅ Back</button>
+<h2 id="albumTitle"></h2>
+<div class="gallery" id="gallery"></div>
 </div>
 
 <script>
@@ -182,47 +205,62 @@ const username="priyacrafts";
 const repo="debapriya-arts";
 const branch="main";
 
-window.onload=()=>{setTimeout(()=>{loader.style.display="none"},1000)}
+/* Loader */
+window.onload=()=>{
+setTimeout(()=>{loader.style.display="none"},1000);
+revealCards();
+};
 
-function toggleMode(){
-    document.body.classList.toggle("dark");
+/* Reveal animation */
+function revealCards(){
+document.querySelectorAll(".card").forEach((card,i)=>{
+setTimeout(()=>card.classList.add("show"),i*200);
+});
 }
 
+/* Toggle */
+function toggleMode(){
+document.body.classList.toggle("dark");
+}
+
+/* Cursor */
+const cursor=document.getElementById("cursor");
+document.addEventListener("mousemove",e=>{
+cursor.style.left=e.clientX+"px";
+cursor.style.top=e.clientY+"px";
+});
+
+/* Album */
 function openAlbum(name){
-    document.getElementById("home").style.display="none";
-    document.getElementById("album").style.display="block";
-    document.getElementById("albumTitle").innerText=name.toUpperCase();
-    loadImages(name);
+document.getElementById("home").style.display="none";
+document.getElementById("album").style.display="block";
+document.getElementById("albumTitle").innerText=name.toUpperCase();
+loadImages(name);
 }
 
 function goBack(){
-    document.getElementById("home").style.display="grid";
-    document.getElementById("album").style.display="none";
+document.getElementById("home").style.display="grid";
+document.getElementById("album").style.display="none";
 }
 
 async function loadImages(folder){
-    const gallery=document.getElementById("gallery");
-    gallery.innerHTML="Loading...";
-    try{
-        const res=await fetch(`https://api.github.com/repos/${username}/${repo}/contents/images/${folder}?ref=${branch}`);
-        const data=await res.json();
-
-        gallery.innerHTML="";
-        data.forEach(file=>{
-            if(file.type==="file" && file.download_url){
-                const img=document.createElement("img");
-                img.src=file.download_url;
-                gallery.appendChild(img);
-            }
-        });
-
-        if(gallery.innerHTML===""){
-            gallery.innerHTML="No images found.";
-        }
-
-    }catch(err){
-        gallery.innerHTML="Error loading images.";
-    }
+const gallery=document.getElementById("gallery");
+gallery.innerHTML="Loading...";
+try{
+const res=await fetch(`https://api.github.com/repos/${username}/${repo}/contents/images/${folder}?ref=${branch}`);
+const data=await res.json();
+gallery.innerHTML="";
+data.forEach(file=>{
+if(file.type==="file" && file.download_url){
+const img=document.createElement("img");
+img.src=file.download_url;
+gallery.appendChild(img);
+}
+});
+if(gallery.innerHTML==="") gallery.innerHTML="No images found.";
+}catch{
+gallery.innerHTML="Error loading images.";
+}
 }
 </script>
 

@@ -5,261 +5,779 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Debapriya Art</title>
 
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
 <style>
-*{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI',sans-serif;scroll-behavior:smooth;}
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Poppins',sans-serif;}
+html{scroll-behavior:smooth;}
 body{
-background:#0f0f14;
-color:white;
+background:#f5f5f7;
 overflow-x:hidden;
-transition:0.4s;
+transition:.4s;
+cursor:none;
 }
 
-/* LOADING SCREEN */
+/* DARK MODE */
+body.dark{
+background:#111;
+color:#eee;
+}
+body.dark nav{
+background:rgba(0,0,0,.7);
+}
+body.dark .card{
+background:#1c1c1c;
+color:white;
+}
+body.dark footer{
+background:#000;
+color:#aaa;
+}
+
+/* LOADER */
 #loader{
 position:fixed;
 width:100%;
-height:100vh;
-background:#000;
+height:100%;
+background:white;
 display:flex;
-align-items:center;
 justify-content:center;
-z-index:999999;
+align-items:center;
+z-index:9999;
 }
-.loader-text{
-font-size:28px;
-letter-spacing:3px;
-animation:pulse 1.5s infinite;
+.loader-circle{
+width:60px;
+height:60px;
+border:6px solid #eee;
+border-top:6px solid #ff9ad5;
+border-radius:50%;
+animation:spin 1s linear infinite;
 }
-@keyframes pulse{
-0%,100%{opacity:1}
-50%{opacity:0.4}
+@keyframes spin{
+100%{transform:rotate(360deg);}
 }
 
-/* FLOATING BUBBLES BACKGROUND */
-.bubble{
+/* CURSOR */
+.cursor{
 position:fixed;
-bottom:-100px;
-background:rgba(255,255,255,0.07);
+width:18px;
+height:18px;
 border-radius:50%;
-animation:floatUp linear infinite;
+background:#ff9ad5;
+pointer-events:none;
+z-index:9999;
+mix-blend-mode:difference;
 }
-@keyframes floatUp{
-to{
-transform:translateY(-120vh);
-opacity:0;
+
+/* NAV */
+nav{
+position:fixed;
+top:0;width:100%;
+display:flex;
+justify-content:space-between;
+align-items:center;
+padding:20px 50px;
+background:rgba(255,255,255,.7);
+backdrop-filter:blur(20px);
+z-index:1000;
 }
+nav a{text-decoration:none;color:#333;margin-right:20px;}
+nav a:hover{color:#ff9ad5;}
+nav .social i{margin-left:15px;font-size:20px;color:#333;}
+.dark-toggle{
+cursor:pointer;
+font-size:20px;
+margin-left:20px;
 }
 
 /* HERO */
 .hero{
 height:100vh;
 display:flex;
-flex-direction:column;
-align-items:center;
 justify-content:center;
+align-items:center;
+flex-direction:column;
 text-align:center;
-padding:20px;
 }
-.hero h1{
-font-size:52px;
-letter-spacing:3px;
-margin-bottom:20px;
-animation:fadeUp 1.2s ease;
+.launch-title{
+font-size:clamp(50px,8vw,120px);
+font-weight:900;
+background:linear-gradient(90deg,#ff9ad5,#a18cd1);
+-webkit-background-clip:text;
+color:transparent;
 }
-.hero p{
-max-width:600px;
-opacity:0.85;
-animation:fadeUp 1.8s ease;
-}
-@keyframes fadeUp{
-from{opacity:0;transform:translateY(30px);}
-to{opacity:1;transform:translateY(0);}
-}
+.launch-sub{margin-top:20px;font-size:20px;opacity:.7;}
 
-/* ALBUM GRID */
+/* ABOUT */
+.about{
+min-height:100vh;
+display:flex;
+justify-content:center;
+align-items:center;
+padding:100px 40px;
+text-align:center;
+}
+.about-content{max-width:800px;}
+.about h2{font-size:50px;margin-bottom:20px;}
+
+/* ALBUMS */
 .albums{
+padding:100px 50px;
 display:grid;
 grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
 gap:30px;
-padding:60px 10%;
 }
-.album{
-background:#1a1a22;
-padding:40px 20px;
-border-radius:18px;
-cursor:pointer;
-transition:0.4s;
-position:relative;
+.card{
+background:white;
+border-radius:20px;
 overflow:hidden;
+box-shadow:0 10px 40px rgba(0,0,0,.1);
+cursor:pointer;
+transition:.4s;
+}
+.card:hover{transform:translateY(-12px) scale(1.03);}
+.card img{
+width:100%;
+height:220px;
+object-fit:cover;
+}
+.card h3{padding:15px;text-align:center;}
+
+/* ALBUM VIEW */
+#albumView{
+position:fixed;
+top:0;left:0;
+width:100%;height:100%;
+background:white;
+display:none;
+flex-direction:column;
+padding:40px;
+overflow:auto;
+z-index:2000;
+}
+.grid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+gap:20px;
+}
+.grid img{
+width:100%;
+border-radius:15px;
+cursor:pointer;
+transition:.3s;
+}
+.grid img:hover{
+transform:scale(1.05);
+}
+
+/* MODERN SLIDER */
+.viewer{
+position:fixed;
+top:0;left:0;
+width:100%;height:100%;
+background:rgba(0,0,0,.95);
+display:none;
+justify-content:center;
+align-items:center;
+flex-direction:column;
+z-index:3000;
+}
+.viewer img{
+max-width:90%;
+max-height:80%;
+border-radius:20px;
+}
+.viewer-controls{
+margin-top:20px;
+}
+.viewer button{
+margin:0 10px;
+padding:10px 18px;
+border:none;
+background:#ff9ad5;
+color:white;
+border-radius:6px;
+cursor:pointer;
+}
+
+/* FOOTER */
+footer{
 text-align:center;
-font-size:20px;
-box-shadow:0 10px 30px rgba(0,0,0,0.3);
-}
-.album:hover{
-transform:translateY(-12px) scale(1.03);
-background:#222232;
-}
-
-/* REAL SPLASH */
-.splash{
-position:absolute;
-width:20px;
-height:20px;
-background:radial-gradient(circle,#ff4081,#ff9800,#ffeb3b);
-border-radius:50%;
-animation:splashAnim 0.7s ease-out forwards;
-pointer-events:none;
-}
-@keyframes splashAnim{
-to{
-transform:scale(18);
-opacity:0;
-}
-}
-
-/* ABOUT SECTION */
-.about{
-padding:100px 20px;
-text-align:center;
-background:#111;
-}
-.about h2{
-margin-bottom:20px;
-font-size:32px;
-}
-.about p{
-max-width:600px;
-margin:auto;
-opacity:0.8;
-}
-
-/* SOCIAL ICONS */
-.social{
-margin-top:25px;
-}
-.social a img{
-width:30px;
-margin:0 12px;
-filter:invert(1);
-transition:0.3s;
-}
-.social a img:hover{
-transform:scale(1.25);
+padding:30px;
+background:#fff;
 }
 
 /* MUSIC BUTTON */
 .music-btn{
 position:fixed;
-bottom:25px;
-right:25px;
-background:linear-gradient(45deg,#ff4081,#ff9800);
-border:none;
-padding:12px 20px;
-border-radius:50px;
+bottom:20px;
+right:20px;
+background:#ff9ad5;
 color:white;
+border:none;
+padding:12px 15px;
+border-radius:50%;
+font-size:18px;
 cursor:pointer;
-z-index:9999;
-transition:0.3s;
-box-shadow:0 5px 20px rgba(255,64,129,0.4);
-}
-.music-btn:hover{
-transform:scale(1.1);
-}
-
-/* MOBILE */
-@media(max-width:768px){
-.hero h1{font-size:34px;}
-.album{font-size:18px;}
+z-index:5000;
 }
 </style>
 </head>
 
 <body>
 
-<!-- LOADER -->
-<div id="loader">
-<div class="loader-text">Loading Art...</div>
+<div id="loader"><div class="loader-circle"></div></div>
+<div class="cursor"></div>
+
+<nav>
+<div>
+<a href="#">Home</a>
+<a href="#about">About</a>
+</div>
+<div class="social">
+<a href="https://www.facebook.com/share/1E9xhv91yG/?mibextid=wwXIfr" target="_blank"><i class="fab fa-facebook"></i></a>
+<a href="https://www.instagram.com/debapriya171?igsh=NjM3azBqb2oxNHlo" target="_blank"><i class="fab fa-instagram"></i></a>
+<i class="fas fa-moon dark-toggle" onclick="toggleDark()"></i>
+</div>
+</nav>
+
+<section class="hero">
+<h1 class="launch-title">Debapriya Art</h1>
+<p class="launch-sub">Where Creativity Meets Imagination</p>
+</section>
+
+<section class="about" id="about">
+<div class="about-content">
+<h2>About Me</h2>
+<p>
+Hi, I'm Debapriya — a passionate visual artist from Kolkata who transforms simple ideas into expressive creations. 
+My work includes detailed sketches, elegant calligraphy, custom phone case designs, and handcrafted bottle art.
+Each piece reflects creativity, patience, and emotion.
+</p>
+</div>
+</section>
+
+<section class="albums">
+<div class="card" onclick="openAlbum('sketches')">
+<img src="images/sketches/cover.jpg">
+<h3>Sketches</h3>
+</div>
+<div class="card" onclick="openAlbum('calligraphy')">
+<img src="images/calligraphy/cover.jpg">
+<h3>Calligraphy</h3>
+</div>
+<div class="card" onclick="openAlbum('drawings')">
+<img src="images/drawings/cover.jpg">
+<h3>Drawings</h3>
+</div>
+<div class="card" onclick="openAlbum('phonecase')">
+<img src="images/phonecase/cover.jpg">
+<h3>Phone Case</h3>
+</div>
+<div class="card" onclick="openAlbum('bottle')">
+<img src="images/bottle/cover.jpg">
+<h3>Bottle Art</h3>
+</div>
+</section>
+
+<div id="albumView">
+<button onclick="closeAlbum()">Back</button>
+<h2 id="albumTitle"></h2>
+<div class="grid" id="albumGrid"></div>
 </div>
 
-<!-- MUSIC (ROOT LEVEL) -->
+<div class="viewer" id="viewer">
+<img id="viewerImg">
+<div class="viewer-controls">
+<button onclick="prevImage()">Prev</button>
+<button onclick="nextImage()">Next</button>
+<button onclick="closeViewer()">Close</button>
+</div>
+</div>
+
+<footer>
+<p>© 2026 Debapriya Art | Made with ❤️</p>
+</footer>
+
+<button class="music-btn" onclick="toggleMusic()">🎵</button>
 <audio id="bgMusic" loop>
-<source src="bg-music.mp3" type="audio/mpeg">
+<source src="music.mp3" type="audio/mpeg">
 </audio>
 
-<button class="music-btn" onclick="toggleMusic()">Music</button>
-
-<!-- HERO -->
-<section class="hero">
-<h1>Where Creativity Meets Imagination</h1>
-<p>Welcome to Debapriya Art — A journey of colors, passion and expression through sketches, bottle art, calligraphy, drawings and phone case art.</p>
-</section>
-
-<!-- ALBUMS -->
-<section class="albums">
-<div class="album" onclick="createSplash(event)">Sketches</div>
-<div class="album" onclick="createSplash(event)">Calligraphy</div>
-<div class="album" onclick="createSplash(event)">Drawings</div>
-<div class="album" onclick="createSplash(event)">Phone Case</div>
-<div class="album" onclick="createSplash(event)">Bottle Art</div>
-</section>
-
-<!-- ABOUT -->
-<section class="about">
-<h2>About Me</h2>
-<p>I am Debapriya, an artist passionate about turning imagination into reality through creative art forms.</p>
-
-<div class="social">
-<a href="https://www.instagram.com/debapriya171" target="_blank">
-<img src="https://cdn-icons-png.flaticon.com/512/2111/2111463.png">
-</a>
-<a href="https://www.facebook.com/share/1E9xhv91yG/" target="_blank">
-<img src="https://cdn-icons-png.flaticon.com/512/733/733547.png">
-</a>
-</div>
-</section>
-
 <script>
-
 /* LOADER */
-window.addEventListener("load",()=>{
-setTimeout(()=>{
-document.getElementById("loader").style.opacity="0";
-setTimeout(()=>{document.getElementById("loader").style.display="none";},600);
-},1400);
+window.onload=function(){
+document.getElementById("loader").style.display="none";
+}
+
+/* CURSOR */
+const cursor=document.querySelector(".cursor");
+document.addEventListener("mousemove",(e)=>{
+cursor.style.left=e.clientX+"px";
+cursor.style.top=e.clientY+"px";
 });
 
-/* FLOATING BUBBLES */
-for(let i=0;i<25;i++){
-let bubble=document.createElement("div");
-bubble.classList.add("bubble");
-let size=Math.random()*70+20;
-bubble.style.width=size+"px";
-bubble.style.height=size+"px";
-bubble.style.left=Math.random()*100+"vw";
-bubble.style.animationDuration=(Math.random()*10+12)+"s";
-document.body.appendChild(bubble);
+/* DARK MODE */
+function toggleDark(){
+document.body.classList.toggle("dark");
 }
 
 /* MUSIC */
-let music=document.getElementById("bgMusic");
-function toggleMusic(){
-if(music.paused){
+const music=document.getElementById("bgMusic");
+document.addEventListener("click",function init(){
 music.play();
-}else{
-music.pause();
-}
-}
-
-/* SPLASH EFFECT */
-function createSplash(e){
-let splash=document.createElement("span");
-splash.classList.add("splash");
-splash.style.left=e.offsetX+"px";
-splash.style.top=e.offsetY+"px";
-e.target.appendChild(splash);
-setTimeout(()=>{splash.remove();},700);
+document.removeEventListener("click",init);
+});
+function toggleMusic(){
+music.paused?music.play():music.pause();
 }
 
+/* AUTO IMAGE DETECTION */
+let currentImages=[];
+let currentIndex=0;
+
+function openAlbum(folder){
+let album=document.getElementById("albumView");
+album.style.display="flex";
+document.getElementById("albumTitle").innerText=folder.toUpperCase();
+let grid=document.getElementById("albumGrid");
+grid.innerHTML="";
+currentImages=[];
+let i=1;
+
+function checkImage(){
+let imgPath=`images/${folder}/${i}.jpg`;
+let img=new Image();
+img.src=imgPath;
+img.onload=function(){
+currentImages.push(imgPath);
+let imageElement=new Image();
+imageElement.src=imgPath;
+imageElement.onclick=()=>openViewer(currentImages.length-1);
+grid.appendChild(imageElement);
+i++;
+checkImage();
+};
+}
+checkImage();
+}
+
+function closeAlbum(){
+document.getElementById("albumView").style.display="none";
+}
+
+function openViewer(index){
+currentIndex=index;
+document.getElementById("viewer").style.display="flex";
+document.getElementById("viewerImg").src=currentImages[currentIndex];
+}
+
+function closeViewer(){
+document.getElementById("viewer").style.display="none";
+}
+
+function nextImage(){
+currentIndex=(currentIndex+1)%currentImages.length;
+document.getElementById("viewerImg").src=currentImages[currentIndex];
+}
+
+function prevImage(){
+currentIndex=(currentIndex-1+currentImages.length)%currentImages.length;
+document.getElementById("viewerImg").src=currentImages[currentIndex];
+}
+</script>
+
+</body>
+</html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Debapriya Art</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Poppins',sans-serif;}
+html{scroll-behavior:smooth;}
+body{
+background:#f5f5f7;
+overflow-x:hidden;
+transition:.4s;
+cursor:none;
+}
+
+/* DARK MODE */
+body.dark{
+background:#111;
+color:#eee;
+}
+body.dark nav{
+background:rgba(0,0,0,.7);
+}
+body.dark .card{
+background:#1c1c1c;
+color:white;
+}
+body.dark footer{
+background:#000;
+color:#aaa;
+}
+
+/* LOADER */
+#loader{
+position:fixed;
+width:100%;
+height:100%;
+background:white;
+display:flex;
+justify-content:center;
+align-items:center;
+z-index:9999;
+}
+.loader-circle{
+width:60px;
+height:60px;
+border:6px solid #eee;
+border-top:6px solid #ff9ad5;
+border-radius:50%;
+animation:spin 1s linear infinite;
+}
+@keyframes spin{
+100%{transform:rotate(360deg);}
+}
+
+/* CURSOR */
+.cursor{
+position:fixed;
+width:18px;
+height:18px;
+border-radius:50%;
+background:#ff9ad5;
+pointer-events:none;
+z-index:9999;
+mix-blend-mode:difference;
+}
+
+/* NAV */
+nav{
+position:fixed;
+top:0;width:100%;
+display:flex;
+justify-content:space-between;
+align-items:center;
+padding:20px 50px;
+background:rgba(255,255,255,.7);
+backdrop-filter:blur(20px);
+z-index:1000;
+}
+nav a{text-decoration:none;color:#333;margin-right:20px;}
+nav a:hover{color:#ff9ad5;}
+nav .social i{margin-left:15px;font-size:20px;color:#333;}
+.dark-toggle{
+cursor:pointer;
+font-size:20px;
+margin-left:20px;
+}
+
+/* HERO */
+.hero{
+height:100vh;
+display:flex;
+justify-content:center;
+align-items:center;
+flex-direction:column;
+text-align:center;
+}
+.launch-title{
+font-size:clamp(50px,8vw,120px);
+font-weight:900;
+background:linear-gradient(90deg,#ff9ad5,#a18cd1);
+-webkit-background-clip:text;
+color:transparent;
+}
+.launch-sub{margin-top:20px;font-size:20px;opacity:.7;}
+
+/* ABOUT */
+.about{
+min-height:100vh;
+display:flex;
+justify-content:center;
+align-items:center;
+padding:100px 40px;
+text-align:center;
+}
+.about-content{max-width:800px;}
+.about h2{font-size:50px;margin-bottom:20px;}
+
+/* ALBUMS */
+.albums{
+padding:100px 50px;
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+gap:30px;
+}
+.card{
+background:white;
+border-radius:20px;
+overflow:hidden;
+box-shadow:0 10px 40px rgba(0,0,0,.1);
+cursor:pointer;
+transition:.4s;
+}
+.card:hover{transform:translateY(-12px) scale(1.03);}
+.card img{
+width:100%;
+height:220px;
+object-fit:cover;
+}
+.card h3{padding:15px;text-align:center;}
+
+/* ALBUM VIEW */
+#albumView{
+position:fixed;
+top:0;left:0;
+width:100%;height:100%;
+background:white;
+display:none;
+flex-direction:column;
+padding:40px;
+overflow:auto;
+z-index:2000;
+}
+.grid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+gap:20px;
+}
+.grid img{
+width:100%;
+border-radius:15px;
+cursor:pointer;
+transition:.3s;
+}
+.grid img:hover{
+transform:scale(1.05);
+}
+
+/* MODERN SLIDER */
+.viewer{
+position:fixed;
+top:0;left:0;
+width:100%;height:100%;
+background:rgba(0,0,0,.95);
+display:none;
+justify-content:center;
+align-items:center;
+flex-direction:column;
+z-index:3000;
+}
+.viewer img{
+max-width:90%;
+max-height:80%;
+border-radius:20px;
+}
+.viewer-controls{
+margin-top:20px;
+}
+.viewer button{
+margin:0 10px;
+padding:10px 18px;
+border:none;
+background:#ff9ad5;
+color:white;
+border-radius:6px;
+cursor:pointer;
+}
+
+/* FOOTER */
+footer{
+text-align:center;
+padding:30px;
+background:#fff;
+}
+
+/* MUSIC BUTTON */
+.music-btn{
+position:fixed;
+bottom:20px;
+right:20px;
+background:#ff9ad5;
+color:white;
+border:none;
+padding:12px 15px;
+border-radius:50%;
+font-size:18px;
+cursor:pointer;
+z-index:5000;
+}
+</style>
+</head>
+
+<body>
+
+<div id="loader"><div class="loader-circle"></div></div>
+<div class="cursor"></div>
+
+<nav>
+<div>
+<a href="#">Home</a>
+<a href="#about">About</a>
+</div>
+<div class="social">
+<a href="https://www.facebook.com/share/1E9xhv91yG/?mibextid=wwXIfr" target="_blank"><i class="fab fa-facebook"></i></a>
+<a href="https://www.instagram.com/debapriya171?igsh=NjM3azBqb2oxNHlo" target="_blank"><i class="fab fa-instagram"></i></a>
+<i class="fas fa-moon dark-toggle" onclick="toggleDark()"></i>
+</div>
+</nav>
+
+<section class="hero">
+<h1 class="launch-title">Debapriya Art</h1>
+<p class="launch-sub">Where Creativity Meets Imagination</p>
+</section>
+
+<section class="about" id="about">
+<div class="about-content">
+<h2>About Me</h2>
+<p>
+Hi, I'm Debapriya — a passionate visual artist from Kolkata who transforms simple ideas into expressive creations. 
+My work includes detailed sketches, elegant calligraphy, custom phone case designs, and handcrafted bottle art.
+Each piece reflects creativity, patience, and emotion.
+</p>
+</div>
+</section>
+
+<section class="albums">
+<div class="card" onclick="openAlbum('sketches')">
+<img src="images/sketches/cover.jpg">
+<h3>Sketches</h3>
+</div>
+<div class="card" onclick="openAlbum('calligraphy')">
+<img src="images/calligraphy/cover.jpg">
+<h3>Calligraphy</h3>
+</div>
+<div class="card" onclick="openAlbum('drawings')">
+<img src="images/drawings/cover.jpg">
+<h3>Drawings</h3>
+</div>
+<div class="card" onclick="openAlbum('phonecase')">
+<img src="images/phonecase/cover.jpg">
+<h3>Phone Case</h3>
+</div>
+<div class="card" onclick="openAlbum('bottle')">
+<img src="images/bottle/cover.jpg">
+<h3>Bottle Art</h3>
+</div>
+</section>
+
+<div id="albumView">
+<button onclick="closeAlbum()">Back</button>
+<h2 id="albumTitle"></h2>
+<div class="grid" id="albumGrid"></div>
+</div>
+
+<div class="viewer" id="viewer">
+<img id="viewerImg">
+<div class="viewer-controls">
+<button onclick="prevImage()">Prev</button>
+<button onclick="nextImage()">Next</button>
+<button onclick="closeViewer()">Close</button>
+</div>
+</div>
+
+<footer>
+<p>© 2026 Debapriya Art | Made with ❤️</p>
+</footer>
+
+<button class="music-btn" onclick="toggleMusic()">🎵</button>
+<audio id="bgMusic" loop>
+<source src="music.mp3" type="audio/mpeg">
+</audio>
+
+<script>
+/* LOADER */
+window.onload=function(){
+document.getElementById("loader").style.display="none";
+}
+
+/* CURSOR */
+const cursor=document.querySelector(".cursor");
+document.addEventListener("mousemove",(e)=>{
+cursor.style.left=e.clientX+"px";
+cursor.style.top=e.clientY+"px";
+});
+
+/* DARK MODE */
+function toggleDark(){
+document.body.classList.toggle("dark");
+}
+
+/* MUSIC */
+const music=document.getElementById("bgMusic");
+document.addEventListener("click",function init(){
+music.play();
+document.removeEventListener("click",init);
+});
+function toggleMusic(){
+music.paused?music.play():music.pause();
+}
+
+/* AUTO IMAGE DETECTION */
+let currentImages=[];
+let currentIndex=0;
+
+function openAlbum(folder){
+let album=document.getElementById("albumView");
+album.style.display="flex";
+document.getElementById("albumTitle").innerText=folder.toUpperCase();
+let grid=document.getElementById("albumGrid");
+grid.innerHTML="";
+currentImages=[];
+let i=1;
+
+function checkImage(){
+let imgPath=`images/${folder}/${i}.jpg`;
+let img=new Image();
+img.src=imgPath;
+img.onload=function(){
+currentImages.push(imgPath);
+let imageElement=new Image();
+imageElement.src=imgPath;
+imageElement.onclick=()=>openViewer(currentImages.length-1);
+grid.appendChild(imageElement);
+i++;
+checkImage();
+};
+}
+checkImage();
+}
+
+function closeAlbum(){
+document.getElementById("albumView").style.display="none";
+}
+
+function openViewer(index){
+currentIndex=index;
+document.getElementById("viewer").style.display="flex";
+document.getElementById("viewerImg").src=currentImages[currentIndex];
+}
+
+function closeViewer(){
+document.getElementById("viewer").style.display="none";
+}
+
+function nextImage(){
+currentIndex=(currentIndex+1)%currentImages.length;
+document.getElementById("viewerImg").src=currentImages[currentIndex];
+}
+
+function prevImage(){
+currentIndex=(currentIndex-1+currentImages.length)%currentImages.length;
+document.getElementById("viewerImg").src=currentImages[currentIndex];
+}
 </script>
 
 </body>

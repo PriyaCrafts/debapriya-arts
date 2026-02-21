@@ -5,18 +5,18 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Debapriya Art</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;600;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700;900&display=swap" rel="stylesheet">
 
 <style>
-*{margin:0;padding:0;box-sizing:border-box;font-family:'Poppins',sans-serif;}
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Poppins',sans-serif;scroll-behavior:smooth;}
 body{
-color:white;
-background:linear-gradient(-45deg,#0f0f0f,#1a0033,#0a0a0a,#1f0029);
+background:linear-gradient(-45deg,#fce3ff,#e3f0ff,#fff0f5,#e9e4ff);
 background-size:400% 400%;
-animation:gradientMove 12s ease infinite;
+animation:gradient 15s ease infinite;
+color:#333;
 overflow-x:hidden;
 }
-@keyframes gradientMove{
+@keyframes gradient{
 0%{background-position:0% 50%;}
 50%{background-position:100% 50%;}
 100%{background-position:0% 50%;}
@@ -25,126 +25,228 @@ overflow-x:hidden;
 /* Loader */
 #loader{
 position:fixed;
-top:0;left:0;
-width:100%;height:100%;
-background:#000;
+width:100%;
+height:100%;
+background:white;
 display:flex;
 justify-content:center;
 align-items:center;
-z-index:99999;
+z-index:9999;
 }
-.loader-text{
+#loader h1{
 font-size:40px;
-font-weight:800;
-background:linear-gradient(90deg,#ff4ecd,#7a5cff);
+background:linear-gradient(90deg,#ff9ad5,#a18cd1);
 -webkit-background-clip:text;
 color:transparent;
 animation:pulse 1.5s infinite;
 }
 @keyframes pulse{
-0%{opacity:0.3;}
+0%{opacity:0.4;}
 50%{opacity:1;}
-100%{opacity:0.3;}
+100%{opacity:0.4;}
+}
+
+/* Navbar */
+nav{
+position:fixed;
+top:0;
+width:100%;
+display:flex;
+justify-content:space-between;
+align-items:center;
+padding:15px 40px;
+background:rgba(255,255,255,0.4);
+backdrop-filter:blur(12px);
+z-index:1000;
+}
+nav a{
+text-decoration:none;
+color:#333;
+margin:0 10px;
+font-weight:500;
+}
+.burger{
+font-size:26px;
+cursor:pointer;
+}
+
+/* Hero */
+.hero{
+height:100vh;
+display:flex;
+flex-direction:column;
+justify-content:center;
+align-items:center;
+text-align:center;
+}
+.hero h1{
+font-size:60px;
+font-weight:900;
+background:linear-gradient(90deg,#ff9ad5,#a18cd1);
+-webkit-background-clip:text;
+color:transparent;
+}
+.hero p{
+margin-top:15px;
+font-size:20px;
+opacity:0.7;
 }
 
 /* Albums */
 .albums{
+padding:100px 50px;
 display:grid;
 grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
-gap:20px;
-padding:60px;
+gap:25px;
 }
 .card{
-background:rgba(255,255,255,0.05);
-backdrop-filter:blur(15px);
-padding:20px;
+background:rgba(255,255,255,0.5);
+backdrop-filter:blur(10px);
 border-radius:20px;
+overflow:hidden;
 transition:0.4s;
+box-shadow:0 8px 20px rgba(0,0,0,0.1);
 }
 .card img{
 width:100%;
-height:200px;
+height:220px;
 object-fit:cover;
-border-radius:15px;
 transition:0.4s;
 }
 .card:hover img{
-transform:scale(1.08);
-box-shadow:0 0 25px rgba(255,0,200,0.7);
+transform:scale(1.1);
+box-shadow:0 0 25px rgba(255,150,200,0.7);
+}
+.card h3{
+padding:15px;
+text-align:center;
 }
 
-/* Admin Dashboard */
-.dashboard{
+/* About */
+.about{
+padding:100px 50px;
+text-align:center;
+background:rgba(255,255,255,0.4);
+backdrop-filter:blur(12px);
+}
+.about h2{margin-bottom:20px;}
+.about p{max-width:600px;margin:auto;}
+
+/* Social */
+.social{
+text-align:center;
+padding:40px;
+}
+.social a{
+margin:0 15px;
+text-decoration:none;
+font-weight:600;
+color:#a18cd1;
+}
+
+/* Burger Menu */
+.menu{
 position:fixed;
 top:0;
-right:-350px;
-width:350px;
+right:-300px;
+width:300px;
 height:100%;
-background:rgba(20,20,20,0.9);
-padding:25px;
-transition:0.5s;
-z-index:9999;
-overflow-y:auto;
+background:white;
+box-shadow:-5px 0 20px rgba(0,0,0,0.2);
+padding:30px;
+transition:0.4s;
+z-index:2000;
 }
-.dashboard.active{
-right:0;
-}
-.dashboard h3{
-margin-bottom:15px;
-}
-.dashboard select,
-.dashboard input,
-.dashboard button{
+.menu.active{right:0;}
+.menu button{
+display:block;
+margin:10px 0;
 width:100%;
-margin-bottom:10px;
 padding:10px;
 border:none;
-border-radius:6px;
-}
-.dashboard button{
-background:#ff4ecd;
+background:#a18cd1;
 color:white;
+border-radius:6px;
 cursor:pointer;
 }
 
-/* Progress Bar */
-.progress-container{
+/* Dashboard */
+.progress{
 width:100%;
 height:10px;
-background:#333;
+background:#ddd;
+margin:10px 0;
 border-radius:5px;
 overflow:hidden;
-margin-bottom:15px;
 display:none;
 }
 .progress-bar{
 height:100%;
 width:0%;
-background:linear-gradient(90deg,#ff4ecd,#7a5cff);
-transition:width 0.3s;
+background:#ff9ad5;
 }
 
-.toggle-dashboard{
+/* Fullscreen Viewer */
+.viewer{
 position:fixed;
-top:20px;
-right:20px;
-background:#ff4ecd;
-padding:10px 15px;
-border-radius:8px;
+top:0;left:0;
+width:100%;
+height:100%;
+background:rgba(0,0,0,0.8);
+display:none;
+justify-content:center;
+align-items:center;
+flex-direction:column;
+z-index:3000;
+}
+.viewer img{
+max-width:90%;
+max-height:80%;
+}
+.viewer button{
+margin-top:20px;
+padding:10px 20px;
+border:none;
+background:#ff9ad5;
+color:white;
+border-radius:6px;
 cursor:pointer;
-z-index:10000;
 }
 </style>
 </head>
-
 <body>
 
-<div id="loader"><div class="loader-text">Debapriya Art</div></div>
+<div id="loader"><h1>Debapriya Art</h1></div>
 
-<div class="toggle-dashboard" id="openDashboard">Admin</div>
+<nav>
+<div>
+<a href="#">Home</a>
+<a href="#about">About</a>
+</div>
+<div class="burger" id="burger">☰</div>
+</nav>
 
-<div class="dashboard" id="dashboard">
-<h3>Admin Panel</h3>
+<section class="hero">
+<h1>Debapriya Art</h1>
+<p>Where Creativity Meets Imagination</p>
+</section>
+
+<section class="albums" id="albums"></section>
+
+<section class="about" id="about">
+<h2>About Me</h2>
+<p>I am Debapriya, an artist who transforms imagination into reality through creativity, sketches, calligraphy and artistic designs.</p>
+</section>
+
+<section class="social">
+<a href="https://facebook.com" target="_blank">Facebook</a>
+<a href="https://instagram.com" target="_blank">Instagram</a>
+</section>
+
+<div class="menu" id="menu">
+<button id="closeMenu">Back</button>
+<button id="loginBtn">Admin Login</button>
+<button id="logoutBtn">Logout</button>
 
 <select id="albumSelect">
 <option value="">Select Album</option>
@@ -155,26 +257,20 @@ z-index:10000;
 <option value="Calligraphy">Calligraphy</option>
 </select>
 
-<input type="file" id="uploadInput">
-
-<div class="progress-container" id="progressContainer">
-<div class="progress-bar" id="progressBar"></div>
-</div>
-
+<input type="file" id="fileInput">
+<div class="progress"><div class="progress-bar" id="progressBar"></div></div>
 <button id="uploadBtn">Upload Image</button>
-<button id="loginBtn">Login</button>
-<button id="logoutBtn">Logout</button>
-<button id="closeDashboard">Close</button>
-
 </div>
 
-<section class="albums" id="albums"></section>
+<div class="viewer" id="viewer">
+<img id="viewerImg">
+<button onclick="closeViewer()">Back</button>
+</div>
 
 <script type="module">
-
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
 import { getAuth, signInWithEmailAndPassword, signOut } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
-import { getStorage, ref, uploadBytesResumable, listAll, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-storage.js";
+import { getStorage, ref, uploadBytesResumable } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-storage.js";
 
 const firebaseConfig = {
 apiKey: "AIzaSyAW-xmNGlY6Tdv91Eoa0iWTzdcpT2_rE0Y",
@@ -189,90 +285,34 @@ const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const storage = getStorage(app);
 
-let isAdmin=false;
+window.onload=()=>setTimeout(()=>document.getElementById("loader").style.display="none",1500);
 
-/* Loader */
-window.addEventListener("load",()=>{
-setTimeout(()=>{
-document.getElementById("loader").style.display="none";
-},1500);
-});
+document.getElementById("burger").onclick=()=>document.getElementById("menu").classList.add("active");
+document.getElementById("closeMenu").onclick=()=>document.getElementById("menu").classList.remove("active");
 
-/* Dashboard Toggle */
-document.getElementById("openDashboard").onclick=()=>{
-document.getElementById("dashboard").classList.add("active");
-};
-document.getElementById("closeDashboard").onclick=()=>{
-document.getElementById("dashboard").classList.remove("active");
-};
-
-/* Login */
-document.getElementById("loginBtn").onclick=async()=>{
+document.getElementById("loginBtn").onclick=()=>{
 const email=prompt("Email");
 const pass=prompt("Password");
-try{
-await signInWithEmailAndPassword(auth,email,pass);
-isAdmin=true;
-alert("Logged in");
-}catch(e){alert("Login failed");}
+signInWithEmailAndPassword(auth,email,pass).then(()=>alert("Logged In"));
 };
-document.getElementById("logoutBtn").onclick=async()=>{
-await signOut(auth);
-isAdmin=false;
-alert("Logged out");
-};
+document.getElementById("logoutBtn").onclick=()=>signOut(auth);
 
-/* Image Compression */
-function compressImage(file){
-return new Promise(resolve=>{
-const img=new Image();
-const reader=new FileReader();
-reader.onload=e=>img.src=e.target.result;
-reader.readAsDataURL(file);
-img.onload=()=>{
-const canvas=document.createElement("canvas");
-const ctx=canvas.getContext("2d");
-const maxWidth=1200;
-let scale=maxWidth/img.width;
-canvas.width=maxWidth;
-canvas.height=img.height*scale;
-ctx.drawImage(img,0,0,canvas.width,canvas.height);
-canvas.toBlob(blob=>resolve(blob),"image/jpeg",0.7);
-};
-});
-}
-
-/* Upload with Progress */
-document.getElementById("uploadBtn").onclick=async()=>{
-if(!isAdmin){alert("Login first");return;}
+document.getElementById("uploadBtn").onclick=()=>{
+const file=document.getElementById("fileInput").files[0];
 const album=document.getElementById("albumSelect").value;
-const file=document.getElementById("uploadInput").files[0];
-if(!album||!file){alert("Select album and file");return;}
-
-const compressed=await compressImage(file);
+if(!file||!album)return alert("Select album & file");
 
 const storageRef=ref(storage,album+"/"+Date.now()+".jpg");
-const uploadTask=uploadBytesResumable(storageRef,compressed);
+const uploadTask=uploadBytesResumable(storageRef,file);
 
-const progressContainer=document.getElementById("progressContainer");
-const progressBar=document.getElementById("progressBar");
-progressContainer.style.display="block";
+document.querySelector(".progress").style.display="block";
 
-uploadTask.on("state_changed",
-(snapshot)=>{
-const progress=(snapshot.bytesTransferred/snapshot.totalBytes)*100;
-progressBar.style.width=progress+"%";
-},
-(error)=>{alert("Upload error");},
-()=>{
-alert("Upload complete 🎉");
-progressContainer.style.display="none";
-progressBar.style.width="0%";
-}
-);
+uploadTask.on("state_changed",(snap)=>{
+let percent=(snap.bytesTransferred/snap.totalBytes)*100;
+document.getElementById("progressBar").style.width=percent+"%";
+});
 };
 
-/* Albums Display */
 const albumsData=[
 {name:"Phone Case",img:"https://images.unsplash.com/photo-1601972599720-b9e08a00e5f7"},
 {name:"Bottle Art",img:"https://images.unsplash.com/photo-1583337130417-3346a1be7dee"},
@@ -281,13 +321,18 @@ const albumsData=[
 {name:"Calligraphy",img:"https://images.unsplash.com/photo-1506784983877-45594efa4cbe"}
 ];
 
-const albumsContainer=document.getElementById("albums");
 albumsData.forEach(a=>{
-const card=document.createElement("div");
-card.className="card";
-card.innerHTML=`<img src="${a.img}"><h3>${a.name}</h3>`;
-albumsContainer.appendChild(card);
+let div=document.createElement("div");
+div.className="card";
+div.innerHTML=`<img src="${a.img}" onclick="openViewer('${a.img}')"><h3>${a.name}</h3>`;
+document.getElementById("albums").appendChild(div);
 });
+
+window.openViewer=(src)=>{
+document.getElementById("viewerImg").src=src;
+document.getElementById("viewer").style.display="flex";
+}
+window.closeViewer=()=>document.getElementById("viewer").style.display="none";
 
 </script>
 

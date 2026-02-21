@@ -1,1 +1,396 @@
-<!DOCTYPE html> <html> <head> <meta charset="UTF-8"> <meta name="viewport" content="width=device-width, initial-scale=1.0"> <title>Debapriya Arts</title> <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=Poppins:wght@300;400&display=swap" rel="stylesheet"> <style> /* ===== BODY ===== */ body{ margin:0; font-family:'Poppins', sans-serif; background:#f6efe6; color:#4b3a2f; overflow-x:hidden; } /* ===== WATERCOLOUR TEXTURE ===== */ body::before{ content:""; position:fixed; top:0; left:0; width:100%; height:100%; background:url('https://www.transparenttextures.com/patterns/watercolor.png'); opacity:0.15; z-index:-2; } /* ===== FLOATING BACKGROUND SHAPES ===== */ .bg-shapes span{ position:fixed; width:250px; height:250px; background:rgba(210,180,140,0.25); border-radius:50%; animation:float 18s infinite ease-in-out; z-index:-1; } .bg-shapes span:nth-child(1){top:10%; left:15%;} .bg-shapes span:nth-child(2){top:60%; left:70%;} .bg-shapes span:nth-child(3){top:40%; left:35%;} @keyframes float{ 0%{transform:translateY(0px);} 50%{transform:translateY(-40px);} 100%{transform:translateY(0px);} } /* ===== PREMIUM LOADER ===== */ #loader{ position:fixed; width:100%; height:100%; background:#f5efe6; display:flex; align-items:center; justify-content:center; z-index:9999; flex-direction:column; transition:1s; } #loader h1{ font-family:'Playfair Display', serif; font-size:55px; letter-spacing:4px; } .brush{ width:0; height:6px; background:#b08968; margin-top:20px; animation:brush 1.5s infinite; } @keyframes brush{ 0%{width:0;} 50%{width:80px;} 100%{width:0;} } /* ===== HEADER ===== */ header{ text-align:center; padding:50px; position:relative; animation:fadeSlide 1s ease; } header h1{ font-family:'Playfair Display', serif; font-size:65px; letter-spacing:5px; } .burger{ position:absolute; right:30px; top:30px; font-size:28px; cursor:pointer; } /* ===== GLASS ADMIN PANEL ===== */ #adminPanel{ position:fixed; top:0; right:-350px; width:300px; height:100%; background:rgba(255,255,255,0.4); backdrop-filter:blur(15px); box-shadow:-5px 0 30px rgba(0,0,0,0.1); padding:20px; transition:0.4s; z-index:1000; } #adminPanel.active{ right:0; } button,input,select{ width:100%; margin:8px 0; padding:8px; border-radius:6px; border:1px solid #ddd; } button{ background:#b08968; color:white; cursor:pointer; border:none; } button:hover{ background:#7f5539; } /* ===== ALBUM CARDS GLASS ===== */ .album-container{ display:flex; flex-wrap:wrap; justify-content:center; gap:30px; padding:40px; animation:fadeSlide 1s ease; } .album-card{ width:220px; height:220px; display:flex; align-items:center; justify-content:center; border-radius:20px; cursor:pointer; font-weight:bold; background:rgba(255,255,255,0.35); backdrop-filter:blur(12px); box-shadow:0 10px 30px rgba(0,0,0,0.1); transition:0.4s; } .album-card:hover{ transform:translateY(-12px); } /* ===== GALLERY ===== */ #gallerySection{ display:none; padding:40px; text-align:center; animation:fadeSlide 1s ease; } #gallery{ display:flex; flex-wrap:wrap; gap:20px; justify-content:center; } #gallery img{ width:240px; height:240px; object-fit:cover; border-radius:15px; transition:0.4s; cursor:pointer; } #gallery img:hover{ transform:scale(1.08); } /* ===== ABOUT ===== */ #about{ padding:70px 20px; text-align:center; background:#ede0d4; margin-top:60px; animation:fadeSlide 1.5s ease; } .socials a{ margin:0 15px; text-decoration:none; color:#7f5539; font-weight:bold; } /* ===== PAGE TRANSITION ===== */ @keyframes fadeSlide{ from{opacity:0; transform:translateY(30px);} to{opacity:1; transform:translateY(0);} } /* ===== INK SPLASH ===== */ .ink{ position:fixed; width:20px; height:20px; background:radial-gradient(circle,#7f5539 0%, transparent 70%); border-radius:50%; pointer-events:none; animation:splash 0.6s forwards; z-index:9999; } @keyframes splash{ 0%{transform:scale(1);opacity:1;} 100%{transform:scale(8);opacity:0;} } /* ===== MUSIC BUTTON ===== */ #musicBtn{ position:fixed; bottom:20px; right:20px; background:white; padding:12px; border-radius:50%; cursor:pointer; box-shadow:0 5px 15px rgba(0,0,0,0.2); } </style> </head> <body> <!-- LOADER --> <div id="loader"> <h1>Debapriya Arts</h1> <div class="brush"></div> </div> <!-- FLOATING BG --> <div class="bg-shapes"> <span></span> <span></span> <span></span> </div> <header> <h1>Debapriya Arts</h1> <div class="burger" onclick="toggleAdmin()">☰</div> </header> <div id="adminPanel"> <button onclick="backToHome()">⬅ Back to Home</button> <h3>Admin Panel</h3> <p>(Login & Upload connected to Firebase in your main version)</p> </div> <div class="album-container" id="home"> <div class="album-card" onclick="openAlbum('Phone Case')">Phone Case</div> <div class="album-card" onclick="openAlbum('Bottle Art')">Bottle Art</div> <div class="album-card" onclick="openAlbum('Sketches')">Sketches</div> <div class="album-card" onclick="openAlbum('Drawings')">Drawings</div> <div class="album-card" onclick="openAlbum('Calligraphy')">Calligraphy</div> </div> <div id="gallerySection"> <h2 id="albumTitle"></h2> <div id="gallery"></div> <button onclick="backToHome()">Back</button> </div> <section id="about"> <h2>About Debapriya Arts</h2> <p>Luxury handcrafted artistic creations blending passion, elegance and creativity into every design.</p> <div class="socials"> <a href="#">Instagram</a> <a href="#">Facebook</a> </div> </section> <!-- MUSIC --> <audio id="bgMusic" loop> <source src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_c8c8a73467.mp3?filename=soft-piano-ambient-110397.mp3" type="audio/mp3"> </audio> <div id="musicBtn" onclick="toggleMusic()">🎵</div> <script> /* Loader */ window.onload=function(){ setTimeout(()=>{ document.getElementById("loader").style.opacity="0"; document.getElementById("loader").style.visibility="hidden"; },1500); } /* Burger */ function toggleAdmin(){ document.getElementById("adminPanel").classList.toggle("active"); } /* Back */ function backToHome(){ document.getElementById("gallerySection").style.display="none"; document.getElementById("home").style.display="flex"; document.getElementById("adminPanel").classList.remove("active"); } /* Open Album */ function openAlbum(name){ document.getElementById("home").style.display="none"; document.getElementById("gallerySection").style.display="block"; document.getElementById("albumTitle").innerText=name; } /* Ink Splash */ document.addEventListener("click",function(e){ let ink=document.createElement("div"); ink.className="ink"; ink.style.left=e.clientX+"px"; ink.style.top=e.clientY+"px"; document.body.appendChild(ink); setTimeout(()=>{ink.remove();},600); }); /* Music */ const music=document.getElementById("bgMusic"); let playing=false; function toggleMusic(){ if(!playing){ music.volume=0.2; music.play(); playing=true; }else{ music.pause(); playing=false; } } </script> </body> </html>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Debapriya Art</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;600;800&display=swap" rel="stylesheet">
+
+<style>
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Poppins',sans-serif;
+}
+
+body{
+background:#0f0f0f;
+color:white;
+overflow-x:hidden;
+cursor:none;
+}
+
+/* Artistic Cursor */
+.cursor{
+width:20px;
+height:20px;
+border:2px solid #ff4ecd;
+border-radius:50%;
+position:fixed;
+pointer-events:none;
+transform:translate(-50%,-50%);
+transition:0.1s;
+z-index:9999;
+}
+
+.cursor::after{
+content:'';
+width:8px;
+height:8px;
+background:#ff4ecd;
+border-radius:50%;
+position:absolute;
+top:50%;
+left:50%;
+transform:translate(-50%,-50%);
+animation:pulse 1.5s infinite;
+}
+
+@keyframes pulse{
+0%{transform:translate(-50%,-50%) scale(1);}
+50%{transform:translate(-50%,-50%) scale(1.8);}
+100%{transform:translate(-50%,-50%) scale(1);}
+}
+
+/* Header */
+header{
+height:100vh;
+display:flex;
+flex-direction:column;
+justify-content:center;
+align-items:center;
+text-align:center;
+background:linear-gradient(135deg,#1a1a1a,#111);
+position:relative;
+}
+
+h1{
+font-size:70px;
+font-weight:800;
+background:linear-gradient(90deg,#ff4ecd,#7a5cff);
+-webkit-background-clip:text;
+color:transparent;
+}
+
+.tagline{
+font-size:20px;
+margin-top:10px;
+opacity:0.7;
+}
+
+/* Burger */
+.burger{
+position:fixed;
+top:20px;
+right:20px;
+font-size:30px;
+cursor:pointer;
+z-index:1000;
+}
+
+.menu{
+position:fixed;
+top:0;
+right:-100%;
+width:300px;
+height:100%;
+background:#111;
+padding:30px;
+transition:0.5s;
+z-index:999;
+}
+
+.menu.active{
+right:0;
+}
+
+.menu button{
+display:block;
+width:100%;
+margin:10px 0;
+padding:10px;
+background:#222;
+color:white;
+border:none;
+cursor:pointer;
+}
+
+/* Albums */
+.albums{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+gap:20px;
+padding:50px;
+}
+
+.card{
+background:#1a1a1a;
+padding:20px;
+border-radius:15px;
+transition:0.3s;
+cursor:pointer;
+}
+
+.card:hover{
+transform:scale(1.05);
+}
+
+.card img{
+width:100%;
+border-radius:10px;
+}
+
+/* Album View */
+.album-view{
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:#000;
+display:none;
+flex-direction:column;
+padding:20px;
+overflow-y:auto;
+animation:fadeIn 0.5s;
+}
+
+@keyframes fadeIn{
+from{opacity:0;}
+to{opacity:1;}
+}
+
+.grid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+gap:15px;
+margin-top:20px;
+}
+
+.grid img{
+width:100%;
+border-radius:10px;
+cursor:pointer;
+}
+
+.fullscreen{
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:#000;
+display:none;
+justify-content:center;
+align-items:center;
+flex-direction:column;
+}
+
+.fullscreen img{
+max-width:90%;
+max-height:80%;
+}
+
+.delete-btn{
+background:red;
+color:white;
+padding:5px 10px;
+border:none;
+cursor:pointer;
+margin-top:5px;
+}
+
+.about{
+padding:50px;
+text-align:center;
+background:#141414;
+}
+
+.social{
+margin-top:20px;
+}
+
+.social a{
+margin:0 10px;
+font-size:25px;
+color:white;
+text-decoration:none;
+}
+</style>
+</head>
+<body>
+
+<div class="cursor"></div>
+
+<audio id="bgMusic" src="music.mp3" loop></audio>
+
+<div class="burger" onclick="toggleMenu()">☰</div>
+
+<div class="menu" id="menu">
+<button onclick="toggleMenu()">← Back</button>
+<button onclick="adminLogin()">Admin Login</button>
+<button onclick="adminLogout()">Logout</button>
+<input type="file" id="uploadInput" style="display:none" onchange="uploadImage()">
+<button onclick="triggerUpload()">Upload Image</button>
+</div>
+
+<header>
+<h1>Debapriya Art</h1>
+<div class="tagline">Where Creativity Meets Imagination</div>
+</header>
+
+<section class="albums" id="albums">
+</section>
+
+<section class="about">
+<h2>About Me</h2>
+<p>Debapriya Art is a creative journey where imagination transforms into visual poetry. Each artwork carries emotion, passion, and artistic storytelling.</p>
+<div class="social">
+<a href="https://www.instagram.com/debapriya171?igsh=NjM3azBqb2oxNHlo" target="_blank">📷</a>
+<a href="https://www.facebook.com/share/1E9xhv91yG/?mibextid=wwXIfr" target="_blank">📘</a>
+</div>
+</section>
+
+<div class="album-view" id="albumView">
+<button onclick="closeAlbum()">← Back</button>
+<h2 id="albumTitle"></h2>
+<div class="grid" id="albumGrid"></div>
+</div>
+
+<div class="fullscreen" id="fullscreen">
+<button onclick="closeFullscreen()">← Back</button>
+<img id="fullscreenImg">
+<button class="delete-btn" id="deleteBtn" style="display:none">Delete</button>
+</div>
+
+<script type="module">
+
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import { getAuth, signInWithEmailAndPassword, signOut } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+import { getStorage, ref, uploadBytes, listAll, getDownloadURL, deleteObject } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-storage.js";
+
+const firebaseConfig = {
+apiKey: "AIzaSyAW-xmNGlY6Tdv91Eoa0iWTzdcpT2_rE0Y",
+authDomain: "debapriya-arts.firebaseapp.com",
+projectId: "debapriya-arts",
+storageBucket: "debapriya-arts.firebasestorage.app",
+messagingSenderId: "11795860412",
+appId: "1:11795860412:web:73df8d337c14e8a5bbb9b9"
+};
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const storage = getStorage(app);
+
+let currentAlbum="";
+let isAdmin=false;
+let selectedImageRef=null;
+
+const albums=["Phone Case","Bottle Art","Sketches","Drawings","Calligraphy"];
+
+const albumsContainer=document.getElementById("albums");
+
+albums.forEach(name=>{
+const card=document.createElement("div");
+card.className="card";
+card.innerHTML=`<img src="https://source.unsplash.com/400x400/?${name},art"><h3>${name}</h3>`;
+card.onclick=()=>openAlbum(name);
+albumsContainer.appendChild(card);
+});
+
+function toggleMenu(){
+document.getElementById("menu").classList.toggle("active");
+}
+
+window.adminLogin=async function(){
+const email=prompt("Enter admin email");
+const pass=prompt("Enter password");
+try{
+await signInWithEmailAndPassword(auth,email,pass);
+isAdmin=true;
+alert("Logged in");
+}catch(e){alert("Login Failed");}
+}
+
+window.adminLogout=async function(){
+await signOut(auth);
+isAdmin=false;
+alert("Logged out");
+}
+
+window.triggerUpload=function(){
+if(!isAdmin){alert("Login as admin");return;}
+const album=prompt("Enter Album Name exactly:");
+if(!albums.includes(album)){alert("Invalid album");return;}
+currentAlbum=album;
+document.getElementById("uploadInput").click();
+}
+
+window.uploadImage=async function(){
+const file=document.getElementById("uploadInput").files[0];
+const storageRef=ref(storage, currentAlbum+"/"+file.name);
+await uploadBytes(storageRef,file);
+alert("Uploaded");
+openAlbum(currentAlbum);
+}
+
+async function openAlbum(name){
+currentAlbum=name;
+document.getElementById("albumView").style.display="flex";
+document.getElementById("albumTitle").innerText=name;
+const grid=document.getElementById("albumGrid");
+grid.innerHTML="";
+const listRef=ref(storage,name);
+const res=await listAll(listRef);
+for(let item of res.items){
+const url=await getDownloadURL(item);
+const img=document.createElement("img");
+img.src=url;
+img.onclick=()=>openFullscreen(url,item);
+grid.appendChild(img);
+}
+}
+
+window.closeAlbum=function(){
+document.getElementById("albumView").style.display="none";
+}
+
+function openFullscreen(url,item){
+selectedImageRef=item;
+document.getElementById("fullscreenImg").src=url;
+document.getElementById("fullscreen").style.display="flex";
+if(isAdmin){
+document.getElementById("deleteBtn").style.display="block";
+document.getElementById("deleteBtn").onclick=async()=>{
+await deleteObject(selectedImageRef);
+alert("Deleted");
+closeFullscreen();
+openAlbum(currentAlbum);
+}
+}
+}
+
+window.closeFullscreen=function(){
+document.getElementById("fullscreen").style.display="none";
+}
+
+/* Cursor */
+const cursor=document.querySelector(".cursor");
+document.addEventListener("mousemove",(e)=>{
+cursor.style.left=e.clientX+"px";
+cursor.style.top=e.clientY+"px";
+});
+
+/* Background Music Auto Play */
+window.addEventListener("click",()=>{
+const music=document.getElementById("bgMusic");
+music.volume=0.3;
+music.play();
+},{once:true});
+
+</script>
+
+</body>
+</html>

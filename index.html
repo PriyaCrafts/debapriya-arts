@@ -24,29 +24,30 @@ nav{
 display:flex;
 justify-content:space-between;
 align-items:center;
-padding:15px 40px;
-background:rgba(255,255,255,0.7);
+padding:15px 50px;
+background:rgba(255,255,255,0.6);
 backdrop-filter:blur(15px);
 position:fixed;
 width:100%;
 top:0;
 z-index:1000;
-box-shadow:0 5px 20px rgba(0,0,0,0.05);
 }
 
 .nav-left{
 display:flex;
 align-items:center;
-gap:15px;
+gap:20px;
 }
 
-.nav-left img{
-height:50px;
+.nav-links{
+display:flex;
+gap:30px;
 }
 
-.site-name{
-font-weight:600;
-font-size:20px;
+.nav-links a{
+text-decoration:none;
+color:#333;
+font-weight:500;
 }
 
 .burger{
@@ -54,40 +55,24 @@ font-size:28px;
 cursor:pointer;
 }
 
-/* ===== SIDE MENU ===== */
+/* ===== SIDEBAR MENU ===== */
 #sideMenu{
 position:fixed;
-top:0;
 right:-300px;
-width:260px;
+top:0;
+width:280px;
 height:100%;
 background:white;
 box-shadow:-5px 0 20px rgba(0,0,0,0.1);
 padding:20px;
 transition:0.4s;
-z-index:1100;
+z-index:1200;
 }
 
-#sideMenu.active{
-right:0;
-}
+#sideMenu.active{ right:0; }
 
-#overlay{
-position:fixed;
-top:0;
-left:0;
-width:100%;
-height:100%;
-background:rgba(0,0,0,0.3);
-opacity:0;
-visibility:hidden;
-transition:0.4s;
-z-index:1050;
-}
-
-#overlay.active{
-opacity:1;
-visibility:visible;
+#sideMenu button{
+margin-bottom:20px;
 }
 
 /* ===== HERO ===== */
@@ -98,33 +83,23 @@ flex-direction:column;
 justify-content:center;
 align-items:center;
 text-align:center;
-padding-top:80px;
+padding-top:100px;
+}
+
+.hero h1.main{
+font-family:'Playfair Display', serif;
+font-size:75px;
+margin:0;
 }
 
 .hero h2{
-font-size:22px;
-letter-spacing:3px;
-margin-bottom:10px;
-}
-
-.hero h1{
 font-family:'Playfair Display', serif;
-font-size:55px;
-margin:10px 0;
-}
-
-.hero span{
-background:linear-gradient(90deg,#ff0080,#7928ca,#2afadf);
--webkit-background-clip:text;
--webkit-text-fill-color:transparent;
-}
-
-.hero p{
-max-width:600px;
+font-size:35px;
+margin-top:10px;
 color:#555;
 }
 
-/* ===== ALBUMS ===== */
+/* ===== ALBUM CARDS ===== */
 .album-container{
 display:flex;
 flex-wrap:wrap;
@@ -136,106 +111,84 @@ padding:80px 40px;
 .album-card{
 width:220px;
 height:220px;
-display:flex;
-align-items:center;
-justify-content:center;
 border-radius:20px;
+overflow:hidden;
+position:relative;
 cursor:pointer;
-font-weight:bold;
-background:rgba(255,255,255,0.4);
-backdrop-filter:blur(12px);
-box-shadow:0 10px 30px rgba(0,0,0,0.08);
-transition:0.4s;
+box-shadow:0 10px 30px rgba(0,0,0,0.1);
 }
 
-.album-card:hover{
-transform:translateY(-12px);
-}
-
-#gallery{
-display:flex;
-flex-wrap:wrap;
-gap:20px;
-justify-content:center;
-padding:40px;
-}
-
-#gallery img{
-width:220px;
-height:220px;
+.album-card img{
+width:100%;
+height:100%;
 object-fit:cover;
-border-radius:15px;
 }
 
-/* ===== ABOUT ===== */
-#about{
-padding:100px 20px;
-text-align:center;
-background:#ede0d4;
-}
-
-.about-text{
-max-width:700px;
-margin:20px auto;
-font-family:'Playfair Display', serif;
-line-height:1.8;
-}
-
-.social-icon{
-width:40px;
-margin:15px;
-}
-
-/* ===== ADMIN LOGIN ===== */
-#adminLogin{
-display:none;
-position:fixed;
-top:50%;
-left:50%;
-transform:translate(-50%,-50%);
-background:white;
-padding:30px;
-box-shadow:0 10px 30px rgba(0,0,0,0.2);
-z-index:1200;
-}
-
-input, select{
-width:100%;
-padding:8px;
-margin:8px 0;
-}
-
-button{
-padding:10px;
-background:#7928ca;
+.album-card span{
+position:absolute;
+bottom:10px;
+left:10px;
 color:white;
-border:none;
-cursor:pointer;
+font-weight:bold;
+background:rgba(0,0,0,0.5);
+padding:5px 10px;
+border-radius:10px;
+}
+
+/* ===== GALLERY ===== */
+.gallery{
+position:fixed;
+top:0;
+left:0;
 width:100%;
+height:100%;
+background:#fff;
+overflow-y:auto;
+display:none;
+padding:80px 30px;
+z-index:1300;
 }
 
-/* ===== CURSOR ===== */
-.cursor{
-position:fixed;
-width:18px;
-height:18px;
-border:2px solid #7928ca;
-border-radius:50%;
-pointer-events:none;
-transform:translate(-50%,-50%);
-z-index:9999;
+.gallery.active{ display:block; }
+
+.grid{
+display:grid;
+grid-template-columns:repeat(auto-fill,minmax(200px,1fr));
+gap:20px;
 }
 
-.cursor-follower{
-position:fixed;
-width:40px;
-height:40px;
-background:rgba(121,40,202,0.2);
-border-radius:50%;
-pointer-events:none;
-transform:translate(-50%,-50%);
-z-index:9998;
+.grid img{
+width:100%;
+border-radius:15px;
+cursor:pointer;
 }
+
+/* ===== FULL IMAGE VIEW ===== */
+#fullView{
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:rgba(0,0,0,0.9);
+display:none;
+justify-content:center;
+align-items:center;
+z-index:1400;
+}
+
+#fullView img{
+max-width:90%;
+max-height:90%;
+}
+
+/* ===== ADMIN UPLOAD ===== */
+.upload-section{
+display:none;
+margin-bottom:20px;
+}
+
+.adminVisible{ display:block !important; }
 
 </style>
 </head>
@@ -244,148 +197,156 @@ z-index:9998;
 
 <nav>
 <div class="nav-left">
-<img src="logo.png">
-<div class="site-name">Debapriya Art</div>
-</div>
 <div class="burger" onclick="toggleMenu()">☰</div>
+<div class="nav-links">
+<a href="#">Home</a>
+<a href="#about">About</a>
+</div>
+</div>
 </nav>
 
-<div id="overlay" onclick="closeMenu()"></div>
-
 <div id="sideMenu">
-<button onclick="closeMenu()">⬅ Back</button>
-<hr>
-<button onclick="openAdminLogin()">Admin Login</button>
+<button onclick="toggleMenu()">⬅ Back</button>
+<button onclick="adminLogin()">Admin Login</button>
 </div>
 
 <div class="hero">
-<h2>DEBAPRIYA ART</h2>
-<h1>Where Creativity Meets <span>Imagination</span></h1>
-<p>Handcrafted artistic creations blending passion and elegance into timeless masterpieces.</p>
+<h1 class="main">Debapriya Art</h1>
+<h2>Where Creativity Meets Imagination</h2>
 </div>
 
+<!-- ALBUMS -->
 <div class="album-container">
-<div class="album-card" onclick="openAlbum('Phone Case')">Phone Case</div>
-<div class="album-card" onclick="openAlbum('Bottle Art')">Bottle Art</div>
-<div class="album-card" onclick="openAlbum('Sketches')">Sketches</div>
-<div class="album-card" onclick="openAlbum('Drawings')">Drawings</div>
-<div class="album-card" onclick="openAlbum('Calligraphy')">Calligraphy</div>
+
+<div class="album-card" onclick="openAlbum('phone')">
+<img src="https://images.unsplash.com/photo-1512499617640-c2f999098c01">
+<span>Phone Case</span>
 </div>
 
-<div id="gallery"></div>
-
-<section id="about">
-<h2>About Debapriya Art</h2>
-<p class="about-text">
-At Debapriya Art, every creation tells a story of imagination and emotion.
-Each design transforms ordinary surfaces into expressive art.
-</p>
-
-<a href="https://www.instagram.com/debapriya171" target="_blank">
-<img src="https://cdn-icons-png.flaticon.com/512/2111/2111463.png" class="social-icon">
-</a>
-
-<a href="https://www.facebook.com/share/1E9xhv91yG/?mibextid=wwXIfr" target="_blank">
-<img src="https://cdn-icons-png.flaticon.com/512/733/733547.png" class="social-icon">
-</a>
-
-</section>
-
-<!-- ADMIN LOGIN -->
-<div id="adminLogin">
-<h3>Admin Login</h3>
-<input type="password" id="adminPass" placeholder="Enter Password">
-<button onclick="login()">Login</button>
+<div class="album-card" onclick="openAlbum('bottle')">
+<img src="https://images.unsplash.com/photo-1603565816030-6b389eeb23cb">
+<span>Bottle Art</span>
 </div>
 
-<!-- UPLOAD PANEL -->
-<div id="uploadPanel" style="display:none; padding:40px;">
-<h3>Upload Image</h3>
-<select id="albumSelect">
-<option>Phone Case</option>
-<option>Bottle Art</option>
-<option>Sketches</option>
-<option>Drawings</option>
-<option>Calligraphy</option>
-</select>
-<input type="file" id="imageUpload">
-<button onclick="uploadImage()">Upload</button>
+<div class="album-card" onclick="openAlbum('sketch')">
+<img src="https://images.unsplash.com/photo-1513364776144-60967b0f800f">
+<span>Sketches</span>
 </div>
 
-<audio id="bgMusic" loop>
-<source src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_c8c8a73467.mp3">
-</audio>
+<div class="album-card" onclick="openAlbum('drawing')">
+<img src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee">
+<span>Drawings</span>
+</div>
 
-<div class="cursor"></div>
-<div class="cursor-follower"></div>
+<div class="album-card" onclick="openAlbum('calligraphy')">
+<img src="https://images.unsplash.com/photo-1587614382346-acf9e8c7e0e3">
+<span>Calligraphy</span>
+</div>
+
+</div>
+
+<!-- GALLERY -->
+<div class="gallery" id="gallery">
+<button onclick="closeGallery()">⬅ Back</button>
+
+<div class="upload-section" id="uploadSection">
+<input type="file" id="uploadInput">
+<button onclick="uploadImage()">Upload Image</button>
+</div>
+
+<div class="grid" id="grid"></div>
+</div>
+
+<!-- FULL IMAGE -->
+<div id="fullView" onclick="closeFull()">
+<img id="fullImg">
+</div>
 
 <script>
 
 /* MENU */
 function toggleMenu(){
-document.getElementById("sideMenu").classList.add("active");
-document.getElementById("overlay").classList.add("active");
-}
-
-function closeMenu(){
-document.getElementById("sideMenu").classList.remove("active");
-document.getElementById("overlay").classList.remove("active");
+document.getElementById("sideMenu").classList.toggle("active");
 }
 
 /* ADMIN LOGIN */
-function openAdminLogin(){
-document.getElementById("adminLogin").style.display="block";
-}
-
-function login(){
-let pass=document.getElementById("adminPass").value;
+let isAdmin=false;
+function adminLogin(){
+let pass=prompt("Enter Admin Password:");
 if(pass==="admin123"){
-alert("Login Successful");
-document.getElementById("adminLogin").style.display="none";
-document.getElementById("uploadPanel").style.display="block";
+isAdmin=true;
+alert("Logged in as Admin");
 }else{
 alert("Wrong Password");
 }
 }
 
-/* ALBUM OPEN */
+/* ALBUM DATA */
+const albums={
+phone:[
+"https://images.unsplash.com/photo-1580910051074-3eb694886505",
+"https://images.unsplash.com/photo-1556656793-08538906a9f8"
+],
+bottle:[
+"https://images.unsplash.com/photo-1524594154908-edd8e8d8c64b"
+],
+sketch:[
+"https://images.unsplash.com/photo-1500534314209-a25ddb2bd429"
+],
+drawing:[
+"https://images.unsplash.com/photo-1517694712202-14dd9538aa97"
+],
+calligraphy:[
+"https://images.unsplash.com/photo-1506086679525-9a4c7c6a1b3b"
+]
+};
+
+let currentAlbum="";
+
+/* OPEN ALBUM */
 function openAlbum(name){
-let gallery=document.getElementById("gallery");
-gallery.innerHTML="";
-let images=JSON.parse(localStorage.getItem(name))||[];
-images.forEach(src=>{
+currentAlbum=name;
+document.getElementById("gallery").classList.add("active");
+let grid=document.getElementById("grid");
+grid.innerHTML="";
+albums[name].forEach(src=>{
 let img=document.createElement("img");
 img.src=src;
-gallery.appendChild(img);
+img.onclick=()=>openFull(src);
+grid.appendChild(img);
 });
+if(isAdmin){
+document.getElementById("uploadSection").classList.add("adminVisible");
+}
 }
 
-/* UPLOAD IMAGE */
-function uploadImage(){
-let file=document.getElementById("imageUpload").files[0];
-let album=document.getElementById("albumSelect").value;
+/* CLOSE GALLERY */
+function closeGallery(){
+document.getElementById("gallery").classList.remove("active");
+document.getElementById("uploadSection").classList.remove("adminVisible");
+}
 
+/* FULL VIEW */
+function openFull(src){
+document.getElementById("fullView").style.display="flex";
+document.getElementById("fullImg").src=src;
+}
+function closeFull(){
+document.getElementById("fullView").style.display="none";
+}
+
+/* UPLOAD (LOCAL PREVIEW - CONNECT FIREBASE HERE) */
+function uploadImage(){
+let file=document.getElementById("uploadInput").files[0];
+if(file){
 let reader=new FileReader();
 reader.onload=function(e){
-let images=JSON.parse(localStorage.getItem(album))||[];
-images.push(e.target.result);
-localStorage.setItem(album,JSON.stringify(images));
-alert("Uploaded!");
+albums[currentAlbum].push(e.target.result);
+openAlbum(currentAlbum);
 }
 reader.readAsDataURL(file);
 }
-
-/* CURSOR */
-const cursor=document.querySelector(".cursor");
-const follower=document.querySelector(".cursor-follower");
-document.addEventListener("mousemove",(e)=>{
-cursor.style.left=e.clientX+"px";
-cursor.style.top=e.clientY+"px";
-setTimeout(()=>{
-follower.style.left=e.clientX+"px";
-follower.style.top=e.clientY+"px";
-},80);
-});
+}
 
 </script>
 

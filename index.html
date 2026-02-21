@@ -9,6 +9,7 @@
 
 <style>
 *{margin:0;padding:0;box-sizing:border-box;font-family:'Poppins',sans-serif;scroll-behavior:smooth;}
+
 body{
 background:linear-gradient(-45deg,#fce3ff,#e3f0ff,#fff0f5,#e9e4ff);
 background-size:400% 400%;
@@ -16,6 +17,7 @@ animation:gradient 18s ease infinite;
 overflow-x:hidden;
 transition:background .5s,color .5s,opacity .5s;
 }
+
 @keyframes gradient{
 0%{background-position:0% 50%;}
 50%{background-position:100% 50%;}
@@ -44,7 +46,7 @@ animation:spin 1s linear infinite;
 }
 @keyframes spin{to{transform:rotate(360deg);}}
 
-/* BLOBS */
+/* FLOATING BLOBS */
 .blob{
 position:fixed;
 border-radius:50%;
@@ -58,7 +60,7 @@ animation:float 20s infinite alternate ease-in-out;
 .blob3{width:250px;height:250px;background:#ffd6f5;top:60%;left:60%;}
 @keyframes float{from{transform:translateY(0);}to{transform:translateY(-80px);}}
 
-/* NAV */
+/* NAVBAR */
 nav{
 position:fixed;
 top:0;
@@ -77,11 +79,12 @@ color:#333;
 margin:0 10px;
 font-weight:500;
 }
-#themeToggle{
+nav button{
 background:none;
 border:none;
 font-size:20px;
 cursor:pointer;
+margin-left:10px;
 }
 
 /* HERO */
@@ -207,22 +210,11 @@ border-radius:6px;
 cursor:pointer;
 }
 
-/* MENU */
-.menu{
-position:fixed;
-top:0;
-right:-300px;
-width:300px;
-height:100%;
-background:white;
-padding:30px;
-transition:.4s;
-box-shadow:-5px 0 20px rgba(0,0,0,.2);
-z-index:2500;
+/* DARK MODE */
+body.dark{
+background:#111;
+color:white;
 }
-.menu.active{right:0;}
-
-body.dark{background:#111;color:white;}
 body.dark nav{background:rgba(0,0,0,.6);}
 body.dark .card{background:rgba(0,0,0,.5);}
 body.dark #about{background:rgba(0,0,0,.5);}
@@ -245,7 +237,7 @@ body.fade-out{opacity:0;}
 </div>
 <div>
 <button id="themeToggle">🌙</button>
-<span style="font-size:26px;cursor:pointer;" onclick="openMenu()">☰</span>
+<button id="musicToggle">🎵</button>
 </div>
 </nav>
 
@@ -259,18 +251,22 @@ body.fade-out{opacity:0;}
 <img src="sketch.jpg">
 <h3>Sketches</h3>
 </div>
+
 <div class="card" onclick="openAlbum('calligraphy')">
 <img src="calligraphy.jpg">
 <h3>Calligraphy</h3>
 </div>
+
 <div class="card" onclick="openAlbum('phonecase')">
 <img src="phonecase.jpg">
 <h3>Phone Case</h3>
 </div>
+
 <div class="card" onclick="openAlbum('drawings')">
 <img src="drawings.jpg">
 <h3>Drawings</h3>
 </div>
+
 <div class="card" onclick="openAlbum('bottle')">
 <img src="bottle.jpg">
 <h3>Bottle Art</h3>
@@ -281,10 +277,10 @@ body.fade-out{opacity:0;}
 <h2>About Me</h2>
 <p>I am Debapriya, an artist turning imagination into beautiful creations.</p>
 <div class="socials">
-<a href="https://www.instagram.com/debapriya171?igsh=NjM3azBqb2oxNHlo" target="_blank">
+<a href="https://www.instagram.com/debapriya171" target="_blank">
 <img src="https://cdn-icons-png.flaticon.com/512/2111/2111463.png">
 </a>
-<a href="https://www.facebook.com/share/1E9xhv91yG/?mibextid=wwXIfr" target="_blank">
+<a href="https://www.facebook.com" target="_blank">
 <img src="https://cdn-icons-png.flaticon.com/512/733/733547.png">
 </a>
 </div>
@@ -301,17 +297,12 @@ body.fade-out{opacity:0;}
 <button onclick="closeViewer()">Back</button>
 </div>
 
-<div class="menu" id="menu">
-<button onclick="closeMenu()">Back</button>
-<a href="#">Home</a><br><br>
-<a href="#about">About</a>
-</div>
+<!-- Background Music -->
+<audio id="bgMusic" loop>
+<source src="music.mp3" type="audio/mpeg">
+</audio>
 
 <script>
-const username="priyacrafts";
-const repo="debapriya-arts";
-const branch="main";
-
 window.addEventListener("load",()=>{
 setTimeout(()=>{
 document.getElementById("preloader").style.opacity="0";
@@ -319,40 +310,59 @@ setTimeout(()=>{document.getElementById("preloader").style.display="none";},600)
 },800);
 });
 
+/* THEME */
 document.getElementById("themeToggle").onclick=()=>{
 document.body.classList.toggle("dark");
 };
 
-/* GITHUB AUTO LOAD */
-async function openAlbum(folder){
+/* MUSIC */
+const music=document.getElementById("bgMusic");
+const musicBtn=document.getElementById("musicToggle");
+
+musicBtn.onclick=()=>{
+if(music.paused){
+music.play();
+musicBtn.innerText="⏸";
+}else{
+music.pause();
+musicBtn.innerText="🎵";
+}
+};
+
+/* ALBUM SYSTEM */
+function openAlbum(folder){
 document.getElementById("albumView").style.display="flex";
 document.getElementById("albumTitle").innerText=folder.toUpperCase();
 let grid=document.getElementById("albumGrid");
-grid.innerHTML="Loading...";
-
-try{
-let res=await fetch(`https://api.github.com/repos/${username}/${repo}/contents/images/${folder}?ref=${branch}`);
-let data=await res.json();
 grid.innerHTML="";
-data.forEach(file=>{
-if(file.type==="file" && file.download_url){
-let img=document.createElement("img");
-img.src=file.download_url;
+let index=1;
+
+function loadNext(){
+let img=new Image();
+img.src=`images/${folder}/${index}.jpg`;
+img.onload=function(){
 img.onclick=()=>openViewer(img.src);
 grid.appendChild(img);
+index++;
+loadNext();
+};
+img.onerror=function(){};
 }
-});
-if(grid.innerHTML==="") grid.innerHTML="No images found.";
-}catch{
-grid.innerHTML="Error loading images.";
-}
+loadNext();
 }
 
-function closeAlbum(){document.getElementById("albumView").style.display="none";}
-function openViewer(src){viewer.style.display="flex";viewerImg.src=src;}
-function closeViewer(){viewer.style.display="none";}
-function openMenu(){menu.classList.add("active");}
-function closeMenu(){menu.classList.remove("active");}
+function closeAlbum(){
+document.getElementById("albumView").style.display="none";
+}
+
+function openViewer(src){
+viewer.style.display="flex";
+viewerImg.src=src;
+}
+
+function closeViewer(){
+viewer.style.display="none";
+}
 </script>
 
 </body>

@@ -14,34 +14,60 @@ html{scroll-behavior:smooth;}
 body{
 background:#f5f5f7;
 overflow-x:hidden;
-transition:.5s;
+transition:.4s;
 cursor:none;
 }
 
-/* FLOATING BACKGROUND */
-.bg-float span{
-position:absolute;
-width:25px;
-height:25px;
-background:rgba(161,140,209,0.25);
-border-radius:50%;
-animation:float 25s linear infinite;
+/* DARK MODE */
+body.dark{
+background:#111;
+color:#eee;
 }
-@keyframes float{
-0%{transform:translateY(100vh) scale(0);}
-100%{transform:translateY(-10vh) scale(1);}
+body.dark nav{
+background:rgba(0,0,0,.7);
+}
+body.dark .card{
+background:#1c1c1c;
+color:white;
+}
+body.dark footer{
+background:#000;
+color:#aaa;
 }
 
-/* GLOW CURSOR */
+/* LOADER */
+#loader{
+position:fixed;
+width:100%;
+height:100%;
+background:white;
+display:flex;
+justify-content:center;
+align-items:center;
+z-index:9999;
+}
+.loader-circle{
+width:60px;
+height:60px;
+border:6px solid #eee;
+border-top:6px solid #ff9ad5;
+border-radius:50%;
+animation:spin 1s linear infinite;
+}
+@keyframes spin{
+100%{transform:rotate(360deg);}
+}
+
+/* CURSOR */
 .cursor{
 position:fixed;
-width:20px;
-height:20px;
+width:18px;
+height:18px;
 border-radius:50%;
-background:rgba(255,105,180,0.8);
+background:#ff9ad5;
 pointer-events:none;
-mix-blend-mode:difference;
 z-index:9999;
+mix-blend-mode:difference;
 }
 
 /* NAV */
@@ -52,12 +78,18 @@ display:flex;
 justify-content:space-between;
 align-items:center;
 padding:20px 50px;
-background:rgba(255,255,255,.6);
+background:rgba(255,255,255,.7);
 backdrop-filter:blur(20px);
 z-index:1000;
 }
 nav a{text-decoration:none;color:#333;margin-right:20px;}
+nav a:hover{color:#ff9ad5;}
 nav .social i{margin-left:15px;font-size:20px;color:#333;}
+.dark-toggle{
+cursor:pointer;
+font-size:20px;
+margin-left:20px;
+}
 
 /* HERO */
 .hero{
@@ -88,7 +120,6 @@ text-align:center;
 }
 .about-content{max-width:800px;}
 .about h2{font-size:50px;margin-bottom:20px;}
-.about p{font-size:18px;line-height:1.8;opacity:.8;}
 
 /* ALBUMS */
 .albums{
@@ -103,9 +134,9 @@ border-radius:20px;
 overflow:hidden;
 box-shadow:0 10px 40px rgba(0,0,0,.1);
 cursor:pointer;
-transition:.5s cubic-bezier(.22,1,.36,1);
+transition:.4s;
 }
-.card:hover{transform:translateY(-15px) scale(1.03);}
+.card:hover{transform:translateY(-12px) scale(1.03);}
 .card img{
 width:100%;
 height:220px;
@@ -130,29 +161,51 @@ display:grid;
 grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
 gap:20px;
 }
-.grid img{width:100%;border-radius:15px;cursor:pointer;}
+.grid img{
+width:100%;
+border-radius:15px;
+cursor:pointer;
+transition:.3s;
+}
+.grid img:hover{
+transform:scale(1.05);
+}
 
-/* VIEWER */
+/* MODERN SLIDER */
 .viewer{
 position:fixed;
 top:0;left:0;
 width:100%;height:100%;
-background:rgba(0,0,0,.9);
+background:rgba(0,0,0,.95);
 display:none;
 justify-content:center;
 align-items:center;
 flex-direction:column;
 z-index:3000;
 }
-.viewer img{max-width:90%;max-height:80%;}
-.viewer button{
+.viewer img{
+max-width:90%;
+max-height:80%;
+border-radius:20px;
+}
+.viewer-controls{
 margin-top:20px;
-padding:10px 20px;
+}
+.viewer button{
+margin:0 10px;
+padding:10px 18px;
 border:none;
 background:#ff9ad5;
 color:white;
 border-radius:6px;
 cursor:pointer;
+}
+
+/* FOOTER */
+footer{
+text-align:center;
+padding:30px;
+background:#fff;
 }
 
 /* MUSIC BUTTON */
@@ -174,15 +227,8 @@ z-index:5000;
 
 <body>
 
+<div id="loader"><div class="loader-circle"></div></div>
 <div class="cursor"></div>
-
-<div class="bg-float">
-<span style="left:10%;"></span>
-<span style="left:30%;"></span>
-<span style="left:50%;"></span>
-<span style="left:70%;"></span>
-<span style="left:90%;"></span>
-</div>
 
 <nav>
 <div>
@@ -190,12 +236,9 @@ z-index:5000;
 <a href="#about">About</a>
 </div>
 <div class="social">
-<a href="https://www.facebook.com/share/1E9xhv91yG/?mibextid=wwXIfr" target="_blank">
-<i class="fab fa-facebook"></i>
-</a>
-<a href="https://www.instagram.com/debapriya171?igsh=NjM3azBqb2oxNHlo" target="_blank">
-<i class="fab fa-instagram"></i>
-</a>
+<a href="https://www.facebook.com/share/1E9xhv91yG/?mibextid=wwXIfr" target="_blank"><i class="fab fa-facebook"></i></a>
+<a href="https://www.instagram.com/debapriya171?igsh=NjM3azBqb2oxNHlo" target="_blank"><i class="fab fa-instagram"></i></a>
+<i class="fas fa-moon dark-toggle" onclick="toggleDark()"></i>
 </div>
 </nav>
 
@@ -208,9 +251,9 @@ z-index:5000;
 <div class="about-content">
 <h2>About Me</h2>
 <p>
-Hello, I am Debapriya — an artist who finds beauty in details and emotion in simplicity.
-From expressive sketches to intricate bottle art and custom phone case designs,
-each creation is crafted with passion and imagination.
+Hi, I'm Debapriya — a passionate visual artist from Kolkata who transforms simple ideas into expressive creations. 
+My work includes detailed sketches, elegant calligraphy, custom phone case designs, and handcrafted bottle art.
+Each piece reflects creativity, patience, and emotion.
 </p>
 </div>
 </section>
@@ -246,8 +289,16 @@ each creation is crafted with passion and imagination.
 
 <div class="viewer" id="viewer">
 <img id="viewerImg">
-<button onclick="closeViewer()">Back</button>
+<div class="viewer-controls">
+<button onclick="prevImage()">Prev</button>
+<button onclick="nextImage()">Next</button>
+<button onclick="closeViewer()">Close</button>
 </div>
+</div>
+
+<footer>
+<p>© 2026 Debapriya Art | Made with ❤️</p>
+</footer>
 
 <button class="music-btn" onclick="toggleMusic()">🎵</button>
 <audio id="bgMusic" loop>
@@ -255,6 +306,11 @@ each creation is crafted with passion and imagination.
 </audio>
 
 <script>
+/* LOADER */
+window.onload=function(){
+document.getElementById("loader").style.display="none";
+}
+
 /* CURSOR */
 const cursor=document.querySelector(".cursor");
 document.addEventListener("mousemove",(e)=>{
@@ -262,59 +318,73 @@ cursor.style.left=e.clientX+"px";
 cursor.style.top=e.clientY+"px";
 });
 
-/* MUSIC */
-const music=document.getElementById("bgMusic");
-window.onload=()=>{music.play().catch(()=>{});}
-function toggleMusic(){
-if(music.paused){music.play();}
-else{music.pause();}
+/* DARK MODE */
+function toggleDark(){
+document.body.classList.toggle("dark");
 }
 
-/* ALBUM SYSTEM */
+/* MUSIC */
+const music=document.getElementById("bgMusic");
+document.addEventListener("click",function init(){
+music.play();
+document.removeEventListener("click",init);
+});
+function toggleMusic(){
+music.paused?music.play():music.pause();
+}
+
+/* AUTO IMAGE DETECTION */
+let currentImages=[];
+let currentIndex=0;
+
 function openAlbum(folder){
 let album=document.getElementById("albumView");
 album.style.display="flex";
 document.getElementById("albumTitle").innerText=folder.toUpperCase();
 let grid=document.getElementById("albumGrid");
 grid.innerHTML="";
+currentImages=[];
+let i=1;
 
-/* ADD IMAGES MANUALLY BELOW */
-if(folder==="sketches"){
-addImage("images/sketches/1.jpg");
-addImage("images/sketches/2.jpg");
-}
-if(folder==="calligraphy"){
-addImage("images/calligraphy/1.jpg");
-}
-if(folder==="drawings"){
-addImage("images/drawings/1.jpg");
-}
-if(folder==="phonecase"){
-addImage("images/phonecase/1.jpg");
-}
-if(folder==="bottle"){
-addImage("images/bottle/1.jpg");
-}
-}
-
-function addImage(src){
+function checkImage(){
+let imgPath=`images/${folder}/${i}.jpg`;
 let img=new Image();
-img.src=src;
-img.onclick=()=>openViewer(src);
-document.getElementById("albumGrid").appendChild(img);
+img.src=imgPath;
+img.onload=function(){
+currentImages.push(imgPath);
+let imageElement=new Image();
+imageElement.src=imgPath;
+imageElement.onclick=()=>openViewer(currentImages.length-1);
+grid.appendChild(imageElement);
+i++;
+checkImage();
+};
+}
+checkImage();
 }
 
 function closeAlbum(){
 document.getElementById("albumView").style.display="none";
 }
 
-function openViewer(src){
+function openViewer(index){
+currentIndex=index;
 document.getElementById("viewer").style.display="flex";
-document.getElementById("viewerImg").src=src;
+document.getElementById("viewerImg").src=currentImages[currentIndex];
 }
 
 function closeViewer(){
 document.getElementById("viewer").style.display="none";
+}
+
+function nextImage(){
+currentIndex=(currentIndex+1)%currentImages.length;
+document.getElementById("viewerImg").src=currentImages[currentIndex];
+}
+
+function prevImage(){
+currentIndex=(currentIndex-1+currentImages.length)%currentImages.length;
+document.getElementById("viewerImg").src=currentImages[currentIndex];
 }
 </script>
 

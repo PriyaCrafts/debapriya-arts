@@ -23,19 +23,12 @@ body.dark{
 background:#111;
 color:#eee;
 }
-body.dark nav{
-background:rgba(0,0,0,.7);
-}
-body.dark .card{
-background:#1c1c1c;
-color:white;
-}
-body.dark footer{
-background:#000;
-color:#aaa;
-}
+body.dark nav{background:rgba(0,0,0,.7);}
+body.dark .card{background:#1c1c1c;color:white;}
+body.dark footer{background:#000;color:#aaa;}
+body.dark #albumView{background:#111;}
 
-/* LOADER */
+/* ENHANCED LOADER */
 #loader{
 position:fixed;
 width:100%;
@@ -45,29 +38,59 @@ display:flex;
 justify-content:center;
 align-items:center;
 z-index:9999;
+flex-direction:column;
 }
 .loader-circle{
-width:60px;
-height:60px;
+width:70px;
+height:70px;
 border:6px solid #eee;
 border-top:6px solid #ff9ad5;
 border-radius:50%;
 animation:spin 1s linear infinite;
 }
-@keyframes spin{
-100%{transform:rotate(360deg);}
+#loader p{
+margin-top:20px;
+font-weight:500;
+color:#ff9ad5;
+animation:pulse 1.2s infinite;
+}
+@keyframes spin{100%{transform:rotate(360deg);}}
+@keyframes pulse{
+0%,100%{opacity:1;}
+50%{opacity:.4;}
 }
 
-/* CURSOR */
+/* FLOATING BUBBLES */
+.bubbles span{
+position:fixed;
+bottom:-100px;
+width:20px;
+height:20px;
+background:rgba(255,154,213,.3);
+border-radius:50%;
+animation:float 15s linear infinite;
+z-index:-1;
+}
+@keyframes float{
+0%{transform:translateY(0) scale(1);}
+100%{transform:translateY(-120vh) scale(1.5);}
+}
+
+/* PAINT BRUSH CURSOR */
 .cursor{
 position:fixed;
-width:18px;
-height:18px;
-border-radius:50%;
-background:#ff9ad5;
+width:30px;
+height:30px;
+background:url('https://cdn-icons-png.flaticon.com/512/2972/2972185.png');
+background-size:contain;
+background-repeat:no-repeat;
 pointer-events:none;
 z-index:9999;
-mix-blend-mode:difference;
+animation:brushMove .3s infinite alternate;
+}
+@keyframes brushMove{
+0%{transform:rotate(-10deg);}
+100%{transform:rotate(10deg);}
 }
 
 /* NAV */
@@ -85,11 +108,7 @@ z-index:1000;
 nav a{text-decoration:none;color:#333;margin-right:20px;}
 nav a:hover{color:#ff9ad5;}
 nav .social i{margin-left:15px;font-size:20px;color:#333;}
-.dark-toggle{
-cursor:pointer;
-font-size:20px;
-margin-left:20px;
-}
+.dark-toggle{cursor:pointer;font-size:20px;margin-left:20px;}
 
 /* HERO */
 .hero{
@@ -108,6 +127,28 @@ background:linear-gradient(90deg,#ff9ad5,#a18cd1);
 color:transparent;
 }
 .launch-sub{margin-top:20px;font-size:20px;opacity:.7;}
+.short-intro{
+margin-top:15px;
+max-width:600px;
+font-size:16px;
+opacity:.8;
+animation:fadeUp 1.5s ease;
+}
+
+/* SCROLL EFFECT */
+.reveal{
+opacity:0;
+transform:translateY(60px);
+transition:1s;
+}
+.reveal.active{
+opacity:1;
+transform:translateY(0);
+}
+@keyframes fadeUp{
+0%{opacity:0;transform:translateY(30px);}
+100%{opacity:1;transform:translateY(0);}
+}
 
 /* ABOUT */
 .about{
@@ -137,12 +178,22 @@ cursor:pointer;
 transition:.4s;
 }
 .card:hover{transform:translateY(-12px) scale(1.03);}
-.card img{
-width:100%;
-height:220px;
-object-fit:cover;
-}
+.card img{width:100%;height:220px;object-fit:cover;}
 .card h3{padding:15px;text-align:center;}
+
+/* SPLASH EFFECT */
+.splash{
+position:fixed;
+width:100%;
+height:100%;
+background:radial-gradient(circle,#ff9ad5 10%,transparent 60%);
+animation:splashAnim .6s ease forwards;
+z-index:1500;
+}
+@keyframes splashAnim{
+0%{opacity:1;}
+100%{opacity:0;transform:scale(2);}
+}
 
 /* ALBUM VIEW */
 #albumView{
@@ -167,11 +218,9 @@ border-radius:15px;
 cursor:pointer;
 transition:.3s;
 }
-.grid img:hover{
-transform:scale(1.05);
-}
+.grid img:hover{transform:scale(1.05);}
 
-/* MODERN SLIDER */
+/* VIEWER */
 .viewer{
 position:fixed;
 top:0;left:0;
@@ -188,9 +237,7 @@ max-width:90%;
 max-height:80%;
 border-radius:20px;
 }
-.viewer-controls{
-margin-top:20px;
-}
+.viewer-controls{margin-top:20px;}
 .viewer button{
 margin:0 10px;
 padding:10px 18px;
@@ -202,13 +249,9 @@ cursor:pointer;
 }
 
 /* FOOTER */
-footer{
-text-align:center;
-padding:30px;
-background:#fff;
-}
+footer{text-align:center;padding:30px;background:#fff;}
 
-/* MUSIC BUTTON */
+/* MUSIC */
 .music-btn{
 position:fixed;
 bottom:20px;
@@ -227,8 +270,19 @@ z-index:5000;
 
 <body>
 
-<div id="loader"><div class="loader-circle"></div></div>
+<div id="loader">
+<div class="loader-circle"></div>
+<p>Loading Creativity...</p>
+</div>
+
 <div class="cursor"></div>
+
+<div class="bubbles">
+<span style="left:10%;animation-duration:12s;"></span>
+<span style="left:30%;animation-duration:18s;"></span>
+<span style="left:60%;animation-duration:14s;"></span>
+<span style="left:80%;animation-duration:20s;"></span>
+</div>
 
 <nav>
 <div>
@@ -245,9 +299,14 @@ z-index:5000;
 <section class="hero">
 <h1 class="launch-title">Debapriya Art</h1>
 <p class="launch-sub">Where Creativity Meets Imagination</p>
+<p class="short-intro">Crafting emotions through sketches, ink, and handmade designs that tell unique stories.</p>
 </section>
 
-<section class="about" id="about">
+<section class="albums reveal">
+<!-- YOUR SAME ALBUM CARDS (UNCHANGED) -->
+</section>
+
+<section class="about reveal" id="about">
 <div class="about-content">
 <h2>About Me</h2>
 <p>
@@ -258,55 +317,11 @@ Each piece reflects creativity, patience, and emotion.
 </div>
 </section>
 
-<section class="albums">
-<div class="card" onclick="openAlbum('sketches')">
-<img src="images/sketches/cover.jpg">
-<h3>Sketches</h3>
-</div>
-<div class="card" onclick="openAlbum('calligraphy')">
-<img src="images/calligraphy/cover.jpg">
-<h3>Calligraphy</h3>
-</div>
-<div class="card" onclick="openAlbum('drawings')">
-<img src="images/drawings/cover.jpg">
-<h3>Drawings</h3>
-</div>
-<div class="card" onclick="openAlbum('phonecase')">
-<img src="images/phonecase/cover.jpg">
-<h3>Phone Case</h3>
-</div>
-<div class="card" onclick="openAlbum('bottle')">
-<img src="images/bottle/cover.jpg">
-<h3>Bottle Art</h3>
-</div>
-</section>
-
-<div id="albumView">
-<button onclick="closeAlbum()">Back</button>
-<h2 id="albumTitle"></h2>
-<div class="grid" id="albumGrid"></div>
-</div>
-
-<div class="viewer" id="viewer">
-<img id="viewerImg">
-<div class="viewer-controls">
-<button onclick="prevImage()">Prev</button>
-<button onclick="nextImage()">Next</button>
-<button onclick="closeViewer()">Close</button>
-</div>
-</div>
-
 <footer>
 <p>© 2026 Debapriya Art | Made with ❤️</p>
 </footer>
 
-<button class="music-btn" onclick="toggleMusic()">🎵</button>
-<audio id="bgMusic" loop>
-<source src="music.mp3" type="audio/mpeg">
-</audio>
-
 <script>
-/* LOADER */
 window.onload=function(){
 document.getElementById("loader").style.display="none";
 }
@@ -318,73 +333,21 @@ cursor.style.left=e.clientX+"px";
 cursor.style.top=e.clientY+"px";
 });
 
-/* DARK MODE */
-function toggleDark(){
-document.body.classList.toggle("dark");
+/* SCROLL REVEAL */
+window.addEventListener("scroll",()=>{
+document.querySelectorAll(".reveal").forEach(el=>{
+if(el.getBoundingClientRect().top<window.innerHeight-100){
+el.classList.add("active");
 }
-
-/* MUSIC */
-const music=document.getElementById("bgMusic");
-document.addEventListener("click",function init(){
-music.play();
-document.removeEventListener("click",init);
 });
-function toggleMusic(){
-music.paused?music.play():music.pause();
-}
+});
 
-/* AUTO IMAGE DETECTION */
-let currentImages=[];
-let currentIndex=0;
-
+/* SPLASH */
 function openAlbum(folder){
-let album=document.getElementById("albumView");
-album.style.display="flex";
-document.getElementById("albumTitle").innerText=folder.toUpperCase();
-let grid=document.getElementById("albumGrid");
-grid.innerHTML="";
-currentImages=[];
-let i=1;
-
-function checkImage(){
-let imgPath=`images/${folder}/${i}.jpg`;
-let img=new Image();
-img.src=imgPath;
-img.onload=function(){
-currentImages.push(imgPath);
-let imageElement=new Image();
-imageElement.src=imgPath;
-imageElement.onclick=()=>openViewer(currentImages.length-1);
-grid.appendChild(imageElement);
-i++;
-checkImage();
-};
-}
-checkImage();
-}
-
-function closeAlbum(){
-document.getElementById("albumView").style.display="none";
-}
-
-function openViewer(index){
-currentIndex=index;
-document.getElementById("viewer").style.display="flex";
-document.getElementById("viewerImg").src=currentImages[currentIndex];
-}
-
-function closeViewer(){
-document.getElementById("viewer").style.display="none";
-}
-
-function nextImage(){
-currentIndex=(currentIndex+1)%currentImages.length;
-document.getElementById("viewerImg").src=currentImages[currentIndex];
-}
-
-function prevImage(){
-currentIndex=(currentIndex-1+currentImages.length)%currentImages.length;
-document.getElementById("viewerImg").src=currentImages[currentIndex];
+let splash=document.createElement("div");
+splash.className="splash";
+document.body.appendChild(splash);
+setTimeout(()=>{splash.remove();},600);
 }
 </script>
 

@@ -1,238 +1,226 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Debapriya Art</title>
+<title>Debapriya Art – Masterpiece Edition</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
 
 <style>
-*{margin:0;padding:0;box-sizing:border-box;font-family:'Poppins',sans-serif;scroll-behavior:smooth;}
+
+/* ================= THEME ================= */
+:root{
+  --bg-light: linear-gradient(135deg,#fdfbfb,#ebedee);
+  --bg-dark: linear-gradient(135deg,#1f1c2c,#928dab);
+  --glass-light: rgba(255,255,255,0.25);
+  --glass-dark: rgba(0,0,0,0.35);
+  --text-light:#222;
+  --text-dark:#fff;
+}
 
 body{
-background:linear-gradient(-45deg,#fce3ff,#e3f0ff,#fff0f5,#e9e4ff);
-background-size:400% 400%;
-animation:gradient 18s ease infinite;
-overflow-x:hidden;
-transition:background .5s,color .5s,opacity .5s;
+  margin:0;
+  font-family:Poppins,sans-serif;
+  overflow-x:hidden;
+  transition:0.4s;
+  background:var(--bg-light);
+  color:var(--text-light);
 }
 
-@keyframes gradient{
-0%{background-position:0% 50%;}
-50%{background-position:100% 50%;}
-100%{background-position:0% 50%;}
-}
-
-/* PRELOADER */
-#preloader{
-position:fixed;
-width:100%;
-height:100%;
-background:white;
-display:flex;
-justify-content:center;
-align-items:center;
-z-index:9999;
-transition:opacity .6s ease;
-}
-.loader{
-width:60px;
-height:60px;
-border:6px solid #eee;
-border-top:6px solid #a18cd1;
-border-radius:50%;
-animation:spin 1s linear infinite;
-}
-@keyframes spin{to{transform:rotate(360deg);}}
-
-/* FLOATING BLOBS */
-.blob{
-position:fixed;
-border-radius:50%;
-filter:blur(90px);
-opacity:.4;
-z-index:-1;
-animation:float 20s infinite alternate ease-in-out;
-}
-.blob1{width:350px;height:350px;background:#ffb3ec;top:5%;left:5%;}
-.blob2{width:300px;height:300px;background:#b3cfff;bottom:5%;right:10%;}
-.blob3{width:250px;height:250px;background:#ffd6f5;top:60%;left:60%;}
-@keyframes float{from{transform:translateY(0);}to{transform:translateY(-80px);}}
-
-/* NAVBAR */
-nav{
-position:fixed;
-top:0;
-width:100%;
-display:flex;
-justify-content:space-between;
-align-items:center;
-padding:15px 40px;
-background:rgba(255,255,255,.5);
-backdrop-filter:blur(15px);
-z-index:1000;
-}
-nav a{
-text-decoration:none;
-color:#333;
-margin:0 10px;
-font-weight:500;
-}
-#themeToggle{
-background:none;
-border:none;
-font-size:20px;
-cursor:pointer;
-}
-
-/* HERO */
-.hero{
-height:100vh;
-display:flex;
-flex-direction:column;
-justify-content:center;
-align-items:center;
-text-align:center;
-}
-.hero h1{
-font-size:70px;
-font-weight:900;
-background:linear-gradient(90deg,#ff9ad5,#a18cd1);
--webkit-background-clip:text;
-color:transparent;
-}
-.hero p{
-margin-top:15px;
-font-size:20px;
-opacity:.7;
-}
-
-/* ALBUM CARDS */
-.albums{
-padding:100px 50px;
-display:grid;
-grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
-gap:30px;
-}
-.card{
-background:rgba(255,255,255,.6);
-backdrop-filter:blur(15px);
-border-radius:20px;
-overflow:hidden;
-box-shadow:0 10px 30px rgba(0,0,0,.1);
-cursor:pointer;
-transition:.4s;
-}
-.card img{
-width:100%;
-height:220px;
-object-fit:cover;
-transition:.4s;
-}
-.card:hover{
-transform:translateY(-10px);
-box-shadow:0 0 25px rgba(255,154,213,.6);
-}
-.card:hover img{transform:scale(1.1);}
-.card h3{text-align:center;padding:15px;}
-
-/* ABOUT */
-#about{
-padding:100px 50px;
-text-align:center;
-background:rgba(255,255,255,.5);
-backdrop-filter:blur(12px);
-}
-.socials img{
-width:40px;
-margin:10px;
-transition:.3s;
-}
-.socials img:hover{transform:scale(1.2);}
-
-/* ALBUM VIEW */
-#albumView{
-position:fixed;
-top:0;left:0;
-width:100%;height:100%;
-background:white;
-display:none;
-flex-direction:column;
-padding:40px;
-overflow:auto;
-z-index:2000;
-animation:fadeIn .4s ease;
-}
-@keyframes fadeIn{from{opacity:0}to{opacity:1}}
-
-.grid{
-display:grid;
-grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
-gap:20px;
-}
-.grid img{
-width:100%;
-border-radius:15px;
-cursor:pointer;
-transition:.4s;
-}
-.grid img:hover{
-transform:scale(1.05);
-box-shadow:0 0 20px #ff9ad5;
-}
-
-/* VIEWER */
-.viewer{
-position:fixed;
-top:0;left:0;
-width:100%;height:100%;
-background:rgba(0,0,0,.9);
-display:none;
-justify-content:center;
-align-items:center;
-flex-direction:column;
-z-index:3000;
-}
-.viewer img{
-max-width:90%;
-max-height:80%;
-border-radius:15px;
-}
-.viewer button{
-margin-top:20px;
-padding:10px 20px;
-border:none;
-background:#ff9ad5;
-color:white;
-border-radius:6px;
-cursor:pointer;
-}
-
-/* MENU */
-.menu{
-position:fixed;
-top:0;
-right:-300px;
-width:300px;
-height:100%;
-background:white;
-padding:30px;
-transition:.4s;
-box-shadow:-5px 0 20px rgba(0,0,0,.2);
-z-index:2500;
-}
-.menu.active{right:0;}
-
-/* DARK MODE */
 body.dark{
-background:#111;
-color:white;
+  background:var(--bg-dark);
+  color:var(--text-dark);
 }
-body.dark nav{background:rgba(0,0,0,.6);}
-body.dark .card{background:rgba(0,0,0,.5);}
-body.dark #about{background:rgba(0,0,0,.5);}
-body.fade-out{opacity:0;}
+
+/* ================= PRELOADER ================= */
+#preloader{
+  position:fixed;
+  width:100%;
+  height:100%;
+  background:white;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  z-index:9999;
+}
+
+.loader{
+  width:60px;
+  height:60px;
+  border:5px solid #ddd;
+  border-top:5px solid #ff6ec7;
+  border-radius:50%;
+  animation:spin 1s linear infinite;
+}
+
+@keyframes spin{
+  100%{transform:rotate(360deg);}
+}
+
+/* ================= FLOATING BLOBS ================= */
+.blob{
+  position:fixed;
+  width:300px;
+  height:300px;
+  border-radius:50%;
+  filter:blur(100px);
+  opacity:0.4;
+  z-index:-1;
+  animation:float 10s infinite alternate;
+}
+
+.blob1{background:#ff9a9e; top:-100px; left:-100px;}
+.blob2{background:#a18cd1; bottom:-100px; right:-100px;}
+
+@keyframes float{
+  100%{transform:translateY(40px) translateX(40px);}
+}
+
+/* ================= NAVBAR ================= */
+nav{
+  display:flex;
+  justify-content:space-between;
+  padding:20px 40px;
+  position:fixed;
+  width:100%;
+  backdrop-filter:blur(15px);
+  background:var(--glass-light);
+  z-index:1000;
+}
+
+body.dark nav{ background:var(--glass-dark); }
+
+nav a{
+  margin:0 15px;
+  text-decoration:none;
+  color:inherit;
+  font-weight:500;
+}
+
+/* ================= HERO ================= */
+.hero{
+  text-align:center;
+  padding-top:140px;
+  padding-bottom:100px;
+}
+
+.hero h1{
+  font-size:60px;
+  margin:0;
+}
+
+.hero p{
+  font-size:18px;
+  opacity:0.7;
+}
+
+/* ================= ALBUM GRID ================= */
+.albums{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+  gap:30px;
+  padding:40px;
+}
+
+.card{
+  backdrop-filter:blur(15px);
+  background:var(--glass-light);
+  border-radius:20px;
+  padding:20px;
+  text-align:center;
+  transition:0.4s;
+  cursor:pointer;
+}
+
+body.dark .card{ background:var(--glass-dark); }
+
+.card img{
+  width:100%;
+  border-radius:15px;
+  transition:0.4s;
+}
+
+.card:hover{
+  transform:translateY(-10px);
+}
+
+.card:hover img{
+  box-shadow:0 0 25px #ff9a9e;
+}
+
+/* ================= ALBUM VIEW ================= */
+#albumView{
+  position:fixed;
+  inset:0;
+  background:white;
+  overflow:auto;
+  display:none;
+  padding:40px;
+  z-index:2000;
+}
+
+body.dark #albumView{ background:#111; }
+
+.album-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+  gap:20px;
+}
+
+.album-grid img{
+  width:100%;
+  border-radius:12px;
+  cursor:pointer;
+  transition:0.4s;
+}
+
+.album-grid img:hover{
+  transform:scale(1.05);
+  box-shadow:0 0 20px #a18cd1;
+}
+
+/* ================= FULLSCREEN ================= */
+#fullscreen{
+  position:fixed;
+  inset:0;
+  background:black;
+  display:none;
+  justify-content:center;
+  align-items:center;
+  z-index:3000;
+}
+
+#fullscreen img{
+  max-width:90%;
+  max-height:90%;
+}
+
+/* ================= ABOUT ================= */
+.about{
+  padding:60px 40px;
+  text-align:center;
+}
+
+.socials a{
+  margin:0 15px;
+  font-size:20px;
+  text-decoration:none;
+  color:inherit;
+}
+
+/* ================= CURSOR ================= */
+.cursor{
+  width:20px;
+  height:20px;
+  border-radius:50%;
+  position:fixed;
+  background:linear-gradient(45deg,#ff9a9e,#a18cd1);
+  pointer-events:none;
+  transform:translate(-50%,-50%);
+  transition:0.1s;
+}
+
 </style>
 </head>
 
@@ -242,123 +230,126 @@ body.fade-out{opacity:0;}
 
 <div class="blob blob1"></div>
 <div class="blob blob2"></div>
-<div class="blob blob3"></div>
+
+<div class="cursor" id="cursor"></div>
 
 <nav>
 <div>
-<a href="#">Home</a>
+<a href="#home">Home</a>
 <a href="#about">About</a>
 </div>
-<div>
-<button id="themeToggle">🌙</button>
-<span style="font-size:26px;cursor:pointer;" onclick="openMenu()">☰</span>
-</div>
+<button onclick="toggleTheme()">🌙</button>
 </nav>
 
-<section class="hero">
+<section class="hero" id="home">
 <h1>Debapriya Art</h1>
 <p>Where Creativity Meets Imagination</p>
 </section>
 
 <section class="albums">
-<div class="card" onclick="openAlbum('sketches')">
-<img src="sketch.jpg">
-<h3>Sketches</h3>
-</div>
-
-<div class="card" onclick="openAlbum('calligraphy')">
-<img src="calligraphy.jpg">
-<h3>Calligraphy</h3>
-</div>
-
 <div class="card" onclick="openAlbum('phonecase')">
-<img src="phonecase.jpg">
+<img src="previews/phonecase.jpg">
 <h3>Phone Case</h3>
 </div>
 
+<div class="card" onclick="openAlbum('bottle')">
+<img src="previews/bottle.jpg">
+<h3>Bottle Art</h3>
+</div>
+
+<div class="card" onclick="openAlbum('sketches')">
+<img src="previews/sketches.jpg">
+<h3>Sketches</h3>
+</div>
+
 <div class="card" onclick="openAlbum('drawings')">
-<img src="drawings.jpg">
+<img src="previews/drawings.jpg">
 <h3>Drawings</h3>
 </div>
 
-<div class="card" onclick="openAlbum('bottle')">
-<img src="bottle.jpg">
-<h3>Bottle Art</h3>
-</div>
-</section>
-
-<section id="about">
-<h2>About Me</h2>
-<p>I am Debapriya, an artist turning imagination into beautiful creations.</p>
-<div class="socials">
-<a href="https://www.instagram.com/debapriya171?igsh=NjM3azBqb2oxNHlo" target="_blank">
-<img src="https://cdn-icons-png.flaticon.com/512/2111/2111463.png">
-</a>
-<a href="https://www.facebook.com/share/1E9xhv91yG/?mibextid=wwXIfr" target="_blank">
-<img src="https://cdn-icons-png.flaticon.com/512/733/733547.png">
-</a>
+<div class="card" onclick="openAlbum('calligraphy')">
+<img src="previews/calligraphy.jpg">
+<h3>Calligraphy</h3>
 </div>
 </section>
 
 <div id="albumView">
-<button onclick="closeAlbum()">Back</button>
-<h2 id="albumTitle"></h2>
-<div class="grid" id="albumGrid"></div>
+<button onclick="closeAlbum()">⬅ Back</button>
+<div class="album-grid" id="albumGrid"></div>
 </div>
 
-<div class="viewer" id="viewer">
-<img id="viewerImg">
-<button onclick="closeViewer()">Back</button>
+<div id="fullscreen" onclick="closeFullscreen()">
+<img id="fullImg">
 </div>
 
-<div class="menu" id="menu">
-<button onclick="closeMenu()">Back</button>
-<a href="#">Home</a><br><br>
-<a href="#about">About</a>
+<section class="about" id="about">
+<h2>About Me</h2>
+<p>I create artistic designs including sketches, bottle art, calligraphy, drawings and custom phone case art. Each piece is crafted with creativity and imagination.</p>
+
+<div class="socials">
+<a href="https://www.facebook.com/share/1E9xhv91yG/?mibextid=wwXIfr" target="_blank">Facebook</a>
+<a href="https://www.instagram.com/debapriya171?igsh=NjM3azBqb2oxNHlo" target="_blank">Instagram</a>
 </div>
+</section>
 
 <script>
-window.addEventListener("load",()=>{
-setTimeout(()=>{
-document.getElementById("preloader").style.opacity="0";
-setTimeout(()=>{document.getElementById("preloader").style.display="none";},600);
-},800);
+
+/* PRELOADER */
+window.onload = ()=> {
+ document.getElementById("preloader").style.display="none";
+}
+
+/* CURSOR */
+const cursor=document.getElementById("cursor");
+document.addEventListener("mousemove",e=>{
+ cursor.style.left=e.clientX+"px";
+ cursor.style.top=e.clientY+"px";
 });
 
-document.getElementById("themeToggle").onclick=()=>{
-document.body.classList.toggle("dark");
-};
-
-function openAlbum(folder){
-document.body.classList.add("fade-out");
-setTimeout(()=>{
-document.body.classList.remove("fade-out");
-document.getElementById("albumView").style.display="flex";
-document.getElementById("albumTitle").innerText=folder.toUpperCase();
-let grid=document.getElementById("albumGrid");
-grid.innerHTML="";
-let index=1;
-
-function loadNext(){
-let img=new Image();
-img.src=`images/${folder}/${index}.jpg`;
-img.onload=function(){
-img.onclick=()=>openViewer(img.src);
-grid.appendChild(img);
-index++;
-loadNext();
-};
-img.onerror=function(){};
-}
-loadNext();
-},300);
+/* THEME */
+function toggleTheme(){
+ document.body.classList.toggle("dark");
 }
 
-function closeAlbum(){document.getElementById("albumView").style.display="none";}
-function openViewer(src){viewer.style.display="flex";viewerImg.src=src;}
-function closeViewer(){viewer.style.display="none";}
-function openMenu(){menu.classList.add("active");}
-function closeMenu(){menu.classList.remove("active");}
+/* ================= GITHUB AUTO-DETECT ================= */
+
+const username="debapriya171";
+const repo="debapriya-art";
+
+async function openAlbum(name){
+ document.getElementById("albumView").style.display="block";
+ const grid=document.getElementById("albumGrid");
+ grid.innerHTML="Loading...";
+
+ const path=`images/${name}`;
+
+ const res=await fetch(`https://api.github.com/repos/${username}/${repo}/contents/${path}`);
+ const data=await res.json();
+
+ grid.innerHTML="";
+ data.forEach(file=>{
+  if(file.type==="file"){
+   const img=document.createElement("img");
+   img.src=file.download_url;
+   img.onclick=()=>openFullscreen(file.download_url);
+   grid.appendChild(img);
+  }
+ });
+}
+
+function closeAlbum(){
+ document.getElementById("albumView").style.display="none";
+}
+
+function openFullscreen(src){
+ document.getElementById("fullscreen").style.display="flex";
+ document.getElementById("fullImg").src=src;
+}
+
+function closeFullscreen(){
+ document.getElementById("fullscreen").style.display="none";
+}
+
 </script>
 
 </body>

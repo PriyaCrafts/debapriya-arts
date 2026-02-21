@@ -25,7 +25,7 @@ position:relative;
 100%{background-position:0% 50%;}
 }
 
-/* STAR BACKGROUND */
+/* FLOATING STARS */
 .stars{
 position:fixed;
 width:100%;
@@ -46,6 +46,48 @@ animation:twinkle 3s infinite alternate;
 @keyframes twinkle{
 from{opacity:.2;}
 to{opacity:1;}
+}
+
+/* SHOOTING STARS */
+.shooting-star{
+position:fixed;
+width:3px;
+height:3px;
+background:white;
+border-radius:50%;
+box-shadow:0 0 10px white,0 0 20px white;
+animation:shoot 3s linear forwards;
+z-index:-1;
+}
+@keyframes shoot{
+0%{transform:translate(0,0);opacity:1;}
+100%{transform:translate(-1000px,600px);opacity:0;}
+}
+
+/* CURSOR SPARKLE */
+.sparkle{
+position:fixed;
+width:6px;
+height:6px;
+background:white;
+border-radius:50%;
+pointer-events:none;
+animation:spark 0.8s linear forwards;
+z-index:9999;
+}
+@keyframes spark{
+0%{opacity:1;transform:scale(1);}
+100%{opacity:0;transform:scale(0);}
+}
+
+/* GALAXY MODE */
+body.galaxy{
+background:black !important;
+background-image:
+radial-gradient(circle at 20% 30%, #2a2a72 0%, transparent 40%),
+radial-gradient(circle at 80% 70%, #009ffd 0%, transparent 40%),
+radial-gradient(circle at 50% 50%, #1a1a40 0%, #000 80%);
+background-size:cover;
 }
 
 /* PRELOADER */
@@ -128,11 +170,7 @@ background:linear-gradient(90deg,#ff9ad5,#a18cd1);
 -webkit-background-clip:text;
 color:transparent;
 }
-.hero p{
-margin-top:15px;
-font-size:20px;
-opacity:.8;
-}
+.hero p{margin-top:15px;font-size:20px;opacity:.8;}
 
 /* ALBUMS */
 .albums{
@@ -151,16 +189,8 @@ cursor:pointer;
 transition:.4s;
 border:1px solid rgba(255,255,255,.5);
 }
-.card img{
-width:100%;
-height:220px;
-object-fit:cover;
-transition:.4s;
-}
-.card:hover{
-transform:translateY(-10px);
-box-shadow:0 0 40px rgba(255,154,213,.6);
-}
+.card img{width:100%;height:220px;object-fit:cover;transition:.4s;}
+.card:hover{transform:translateY(-10px);box-shadow:0 0 40px rgba(255,154,213,.6);}
 .card:hover img{transform:scale(1.1);}
 .card h3{text-align:center;padding:15px;}
 
@@ -172,24 +202,14 @@ background:rgba(255,255,255,.35);
 backdrop-filter:blur(25px);
 border-top:1px solid rgba(255,255,255,.5);
 }
-.socials img{
-width:40px;
-margin:10px;
-transition:.3s;
-}
+.socials img{width:40px;margin:10px;transition:.3s;}
 .socials img:hover{transform:scale(1.3);}
 
 /* ALBUM VIEW */
 #albumView{
-position:fixed;
-top:0;left:0;
-width:100%;height:100%;
-background:white;
-display:none;
-flex-direction:column;
-padding:40px;
-overflow:auto;
-z-index:2000;
+position:fixed;top:0;left:0;width:100%;height:100%;
+background:white;display:none;flex-direction:column;
+padding:40px;overflow:auto;z-index:2000;
 }
 .grid{
 display:grid;
@@ -202,43 +222,23 @@ border-radius:15px;
 cursor:pointer;
 transition:.4s;
 }
-.grid img:hover{
-transform:scale(1.05);
-box-shadow:0 0 20px #ff9ad5;
-}
+.grid img:hover{transform:scale(1.05);box-shadow:0 0 20px #ff9ad5;}
 
 /* VIEWER */
 .viewer{
-position:fixed;
-top:0;left:0;
-width:100%;height:100%;
+position:fixed;top:0;left:0;width:100%;height:100%;
 background:rgba(0,0,0,.9);
-display:none;
-justify-content:center;
-align-items:center;
-flex-direction:column;
-z-index:3000;
+display:none;justify-content:center;align-items:center;
+flex-direction:column;z-index:3000;
 }
-.viewer img{
-max-width:90%;
-max-height:80%;
-border-radius:15px;
-}
+.viewer img{max-width:90%;max-height:80%;border-radius:15px;}
 .viewer button{
-margin-top:20px;
-padding:10px 20px;
-border:none;
-background:#ff9ad5;
-color:white;
-border-radius:6px;
-cursor:pointer;
+margin-top:20px;padding:10px 20px;border:none;
+background:#ff9ad5;color:white;border-radius:6px;cursor:pointer;
 }
 
 /* DARK MODE */
-body.dark{
-background:#111;
-color:white;
-}
+body.dark{background:#111;color:white;}
 body.dark nav{background:rgba(0,0,0,.6);}
 body.dark .card{background:rgba(0,0,0,.5);}
 body.dark #about{background:rgba(0,0,0,.5);}
@@ -248,7 +248,6 @@ body.dark #about{background:rgba(0,0,0,.5);}
 <body>
 
 <div class="stars" id="stars"></div>
-
 <div id="preloader"><div class="loader"></div></div>
 
 <div class="blob blob1"></div>
@@ -263,6 +262,7 @@ body.dark #about{background:rgba(0,0,0,.5);}
 <div>
 <button id="themeToggle">🌙</button>
 <button id="musicToggle">🎵</button>
+<button id="galaxyToggle">🌌</button>
 </div>
 </nav>
 
@@ -273,42 +273,28 @@ body.dark #about{background:rgba(0,0,0,.5);}
 
 <section class="albums">
 <div class="card" onclick="openAlbum('sketches')">
-<img src="sketch.jpg">
-<h3>Sketches</h3>
-</div>
+<img src="sketch.jpg"><h3>Sketches</h3></div>
 
 <div class="card" onclick="openAlbum('calligraphy')">
-<img src="calligraphy.jpg">
-<h3>Calligraphy</h3>
-</div>
+<img src="calligraphy.jpg"><h3>Calligraphy</h3></div>
 
 <div class="card" onclick="openAlbum('phonecase')">
-<img src="phonecase.jpg">
-<h3>Phone Case</h3>
-</div>
+<img src="phonecase.jpg"><h3>Phone Case</h3></div>
 
 <div class="card" onclick="openAlbum('drawings')">
-<img src="drawings.jpg">
-<h3>Drawings</h3>
-</div>
+<img src="drawings.jpg"><h3>Drawings</h3></div>
 
 <div class="card" onclick="openAlbum('bottle')">
-<img src="bottle.jpg">
-<h3>Bottle Art</h3>
-</div>
+<img src="bottle.jpg"><h3>Bottle Art</h3></div>
 </section>
 
 <section id="about">
 <h2>About Me</h2>
 <p>I am Debapriya, an artist turning imagination into beautiful creations.</p>
-
 <div class="socials">
 <a href="https://www.instagram.com/debapriya171" target="_blank">
-<img src="https://cdn-icons-png.flaticon.com/512/2111/2111463.png">
-</a>
-<a href="https://www.facebook.com" target="_blank">
-<img src="https://cdn-icons-png.flaticon.com/512/733/733547.png">
-</a>
+<img src="https://cdn-icons-png.flaticon.com/512/2111/2111463.png"></a>
+<a href="#"><img src="https://cdn-icons-png.flaticon.com/512/733/733547.png"></a>
 </div>
 </section>
 
@@ -328,15 +314,15 @@ body.dark #about{background:rgba(0,0,0,.5);}
 </audio>
 
 <script>
-/* AUTO PLAY FIX (Browser Safe) */
 const music=document.getElementById("bgMusic");
-function autoPlayMusic(){
-music.play().catch(()=>{});
-document.removeEventListener("click",autoPlayMusic);
-}
-document.addEventListener("click",autoPlayMusic);
 
-/* STAR GENERATOR */
+/* Browser-safe autoplay */
+document.addEventListener("click",function auto(){
+music.play().catch(()=>{});
+document.removeEventListener("click",auto);
+});
+
+/* Floating stars */
 const starContainer=document.getElementById("stars");
 for(let i=0;i<120;i++){
 let star=document.createElement("div");
@@ -347,6 +333,43 @@ star.style.animationDuration=(2+Math.random()*3)+"s";
 starContainer.appendChild(star);
 }
 
+/* Shooting stars */
+function createShootingStar(){
+const star=document.createElement("div");
+star.classList.add("shooting-star");
+star.style.top=Math.random()*window.innerHeight+"px";
+star.style.left=window.innerWidth+"px";
+document.body.appendChild(star);
+setTimeout(()=>{star.remove();},3000);
+}
+setInterval(createShootingStar,4000);
+
+/* Cursor sparkle */
+document.addEventListener("mousemove",function(e){
+const sparkle=document.createElement("div");
+sparkle.classList.add("sparkle");
+sparkle.style.left=e.pageX+"px";
+sparkle.style.top=e.pageY+"px";
+document.body.appendChild(sparkle);
+setTimeout(()=>{sparkle.remove();},800);
+});
+
+/* Galaxy toggle */
+document.getElementById("galaxyToggle").onclick=()=>{
+document.body.classList.toggle("galaxy");
+};
+
+/* Dark mode */
+document.getElementById("themeToggle").onclick=()=>{
+document.body.classList.toggle("dark");
+};
+
+/* Music toggle */
+document.getElementById("musicToggle").onclick=()=>{
+if(music.paused){music.play();}else{music.pause();}
+};
+
+/* Preloader */
 window.addEventListener("load",()=>{
 setTimeout(()=>{
 document.getElementById("preloader").style.opacity="0";
@@ -354,25 +377,13 @@ setTimeout(()=>{document.getElementById("preloader").style.display="none";},600)
 },800);
 });
 
-document.getElementById("themeToggle").onclick=()=>{
-document.body.classList.toggle("dark");
-};
-
-document.getElementById("musicToggle").onclick=()=>{
-if(music.paused){
-music.play();
-}else{
-music.pause();
-}
-};
-
+/* Album loader */
 function openAlbum(folder){
 document.getElementById("albumView").style.display="flex";
 document.getElementById("albumTitle").innerText=folder.toUpperCase();
 let grid=document.getElementById("albumGrid");
 grid.innerHTML="";
 let index=1;
-
 function loadNext(){
 let img=new Image();
 img.src=`images/${folder}/${index}.jpg`;
@@ -385,19 +396,12 @@ loadNext();
 }
 loadNext();
 }
-
-function closeAlbum(){
-document.getElementById("albumView").style.display="none";
-}
-
+function closeAlbum(){document.getElementById("albumView").style.display="none";}
 function openViewer(src){
 viewer.style.display="flex";
 viewerImg.src=src;
 }
-
-function closeViewer(){
-viewer.style.display="none";
-}
+function closeViewer(){viewer.style.display="none";}
 </script>
 
 </body>

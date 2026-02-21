@@ -4,7 +4,6 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Debapriya Art</title>
-
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700;900&display=swap" rel="stylesheet">
 
 <style>
@@ -15,217 +14,93 @@ background:linear-gradient(-45deg,#fce3ff,#e3f0ff,#fff0f5,#e9e4ff);
 background-size:400% 400%;
 animation:gradient 18s ease infinite;
 overflow-x:hidden;
-transition:background .5s,color .5s,opacity .5s;
+transition:.5s;
 }
-
 @keyframes gradient{
 0%{background-position:0% 50%;}
 50%{background-position:100% 50%;}
 100%{background-position:0% 50%;}
 }
 
-/* PRELOADER */
-#preloader{
-position:fixed;
-width:100%;
-height:100%;
-background:white;
-display:flex;
-justify-content:center;
-align-items:center;
-z-index:9999;
-transition:opacity .6s ease;
+/* GALAXY BACKGROUND */
+.galaxy{
+position:fixed;top:0;left:0;width:100%;height:100%;
+background:
+radial-gradient(circle at 20% 30%, rgba(255,154,213,0.15), transparent 40%),
+radial-gradient(circle at 80% 70%, rgba(161,140,209,0.15), transparent 40%),
+radial-gradient(circle at 50% 50%, rgba(255,255,255,0.05), transparent 60%),
+#050510;
+z-index:-2;
+animation:galaxyMove 60s linear infinite alternate;
 }
-.loader{
-width:60px;
-height:60px;
-border:6px solid #eee;
-border-top:6px solid #a18cd1;
-border-radius:50%;
-animation:spin 1s linear infinite;
+@keyframes galaxyMove{
+from{background-position:0 0,0 0,0 0;}
+to{background-position:200px 100px,-200px -100px,100px -200px;}
 }
-@keyframes spin{to{transform:rotate(360deg);}}
 
 /* FLOATING BLOBS */
-.blob{
-position:fixed;
-border-radius:50%;
-filter:blur(90px);
-opacity:.4;
-z-index:-1;
-animation:float 20s infinite alternate ease-in-out;
-}
+.blob{position:fixed;border-radius:50%;filter:blur(90px);opacity:.4;z-index:-1;animation:float 20s infinite alternate;}
 .blob1{width:350px;height:350px;background:#ffb3ec;top:5%;left:5%;}
 .blob2{width:300px;height:300px;background:#b3cfff;bottom:5%;right:10%;}
 .blob3{width:250px;height:250px;background:#ffd6f5;top:60%;left:60%;}
 @keyframes float{from{transform:translateY(0);}to{transform:translateY(-80px);}}
 
-/* NAVBAR */
-nav{
-position:fixed;
-top:0;
-width:100%;
-display:flex;
-justify-content:space-between;
-align-items:center;
-padding:15px 40px;
-background:rgba(255,255,255,.5);
-backdrop-filter:blur(15px);
-z-index:1000;
-}
-nav a{
-text-decoration:none;
-color:#333;
-margin:0 10px;
-font-weight:500;
-}
-nav button{
-background:none;
-border:none;
-font-size:20px;
-cursor:pointer;
-margin-left:10px;
-}
+/* NAV */
+nav{position:fixed;top:0;width:100%;display:flex;justify-content:space-between;align-items:center;padding:15px 40px;background:rgba(255,255,255,.5);backdrop-filter:blur(15px);z-index:1000;}
+nav a{text-decoration:none;color:#333;margin:0 10px;font-weight:500;}
+nav button{background:none;border:none;font-size:20px;cursor:pointer;margin-left:10px;}
 
 /* HERO */
-.hero{
-height:100vh;
-display:flex;
-flex-direction:column;
-justify-content:center;
-align-items:center;
-text-align:center;
-}
-.hero h1{
-font-size:70px;
-font-weight:900;
-background:linear-gradient(90deg,#ff9ad5,#a18cd1);
--webkit-background-clip:text;
-color:transparent;
-}
-.hero p{
-margin-top:15px;
-font-size:20px;
-opacity:.7;
-}
+.hero{height:100vh;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;}
+.hero h1{font-size:70px;font-weight:900;background:linear-gradient(90deg,#ff9ad5,#a18cd1);-webkit-background-clip:text;color:transparent;}
+.hero p{margin-top:15px;font-size:20px;opacity:.7;}
 
-/* ALBUM CARDS */
-.albums{
-padding:100px 50px;
-display:grid;
-grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
-gap:30px;
-}
-.card{
-background:rgba(255,255,255,.6);
-backdrop-filter:blur(15px);
-border-radius:20px;
-overflow:hidden;
-box-shadow:0 10px 30px rgba(0,0,0,.1);
-cursor:pointer;
-transition:.4s;
-}
-.card img{
-width:100%;
-height:220px;
-object-fit:cover;
-transition:.4s;
-}
-.card:hover{
-transform:translateY(-10px);
-box-shadow:0 0 25px rgba(255,154,213,.6);
-}
+/* ALBUMS */
+.albums{padding:100px 50px;display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:30px;}
+.card{background:rgba(255,255,255,.6);backdrop-filter:blur(15px);border-radius:20px;overflow:hidden;box-shadow:0 10px 30px rgba(0,0,0,.1);cursor:pointer;transition:.4s;}
+.card img{width:100%;height:220px;object-fit:cover;transition:.4s;}
+.card:hover{transform:translateY(-10px);box-shadow:0 0 25px rgba(255,154,213,.6);}
 .card:hover img{transform:scale(1.1);}
 .card h3{text-align:center;padding:15px;}
 
 /* ABOUT */
-#about{
-padding:100px 50px;
-text-align:center;
-background:rgba(255,255,255,.5);
-backdrop-filter:blur(12px);
-}
-.socials img{
-width:40px;
-margin:10px;
-transition:.3s;
-}
+#about{padding:100px 50px;text-align:center;background:rgba(255,255,255,.5);backdrop-filter:blur(12px);}
+.socials img{width:40px;margin:10px;transition:.3s;}
 .socials img:hover{transform:scale(1.2);}
 
 /* ALBUM VIEW */
-#albumView{
-position:fixed;
-top:0;left:0;
-width:100%;height:100%;
-background:white;
-display:none;
-flex-direction:column;
-padding:40px;
-overflow:auto;
-z-index:2000;
-animation:fadeIn .4s ease;
-}
-@keyframes fadeIn{from{opacity:0}to{opacity:1}}
-
-.grid{
-display:grid;
-grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
-gap:20px;
-}
-.grid img{
-width:100%;
-border-radius:15px;
-cursor:pointer;
-transition:.4s;
-}
-.grid img:hover{
-transform:scale(1.05);
-box-shadow:0 0 20px #ff9ad5;
-}
+#albumView{position:fixed;top:0;left:0;width:100%;height:100%;background:white;display:none;flex-direction:column;padding:40px;overflow:auto;z-index:2000;}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:20px;}
+.grid img{width:100%;border-radius:15px;cursor:pointer;transition:.4s;}
+.grid img:hover{transform:scale(1.05);box-shadow:0 0 20px #ff9ad5;}
 
 /* VIEWER */
-.viewer{
-position:fixed;
-top:0;left:0;
-width:100%;height:100%;
-background:rgba(0,0,0,.9);
-display:none;
-justify-content:center;
-align-items:center;
-flex-direction:column;
-z-index:3000;
-}
-.viewer img{
-max-width:90%;
-max-height:80%;
-border-radius:15px;
-}
-.viewer button{
-margin-top:20px;
-padding:10px 20px;
-border:none;
-background:#ff9ad5;
-color:white;
-border-radius:6px;
-cursor:pointer;
-}
+.viewer{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.9);display:none;justify-content:center;align-items:center;flex-direction:column;z-index:3000;}
+.viewer img{max-width:90%;max-height:80%;border-radius:15px;}
+.viewer button{margin-top:20px;padding:10px 20px;border:none;background:#ff9ad5;color:white;border-radius:6px;cursor:pointer;}
 
-/* DARK MODE */
-body.dark{
-background:#111;
-color:white;
-}
+/* DARK */
+body.dark{background:#111;color:white;}
 body.dark nav{background:rgba(0,0,0,.6);}
 body.dark .card{background:rgba(0,0,0,.5);}
 body.dark #about{background:rgba(0,0,0,.5);}
-body.fade-out{opacity:0;}
+
+/* SPARKLE CURSOR */
+.sparkle{position:fixed;width:6px;height:6px;border-radius:50%;pointer-events:none;background:white;box-shadow:0 0 8px #fff,0 0 15px #ff9ad5,0 0 25px #a18cd1;animation:fadeSparkle .8s linear forwards;z-index:9999;}
+@keyframes fadeSparkle{to{transform:translateY(-15px) scale(.3);opacity:0;}}
+
+/* SHOOTING STAR */
+.shooting-star{position:fixed;width:3px;height:3px;background:white;box-shadow:0 0 10px white,0 0 20px #ff9ad5;border-radius:50%;animation:shoot 3s linear forwards;z-index:-1;}
+@keyframes shoot{
+0%{transform:translate(0,0);opacity:1;}
+100%{transform:translate(-800px,400px);opacity:0;}
+}
 </style>
 </head>
 
 <body>
 
-<div id="preloader"><div class="loader"></div></div>
-
+<div class="galaxy"></div>
 <div class="blob blob1"></div>
 <div class="blob blob2"></div>
 <div class="blob blob3"></div>
@@ -247,43 +122,16 @@ body.fade-out{opacity:0;}
 </section>
 
 <section class="albums">
-<div class="card" onclick="openAlbum('sketches')">
-<img src="sketch.jpg">
-<h3>Sketches</h3>
-</div>
-
-<div class="card" onclick="openAlbum('calligraphy')">
-<img src="calligraphy.jpg">
-<h3>Calligraphy</h3>
-</div>
-
-<div class="card" onclick="openAlbum('phonecase')">
-<img src="phonecase.jpg">
-<h3>Phone Case</h3>
-</div>
-
-<div class="card" onclick="openAlbum('drawings')">
-<img src="drawings.jpg">
-<h3>Drawings</h3>
-</div>
-
-<div class="card" onclick="openAlbum('bottle')">
-<img src="bottle.jpg">
-<h3>Bottle Art</h3>
-</div>
+<div class="card" onclick="openAlbum('calligraphy')"><img src="images/calligraphy/IMG_0355.jpg"><h3>Calligraphy</h3></div>
+<div class="card" onclick="openAlbum('bottle')"><img src="images/bottle/2a10f70d-d631-4550-b25f-fee.jpg"><h3>Bottle Art</h3></div>
+<div class="card" onclick="openAlbum('drawings')"><img src="images/drawings/IMG_0363.jpg"><h3>Drawings</h3></div>
+<div class="card" onclick="openAlbum('phonecase')"><img src="images/phonecase/406fbd34-0838-4dc3-b439-24.jpg"><h3>Phone Case</h3></div>
+<div class="card" onclick="openAlbum('sketches')"><img src="images/sketches/IMG_0364.jpg"><h3>Sketches</h3></div>
 </section>
 
 <section id="about">
 <h2>About Me</h2>
 <p>I am Debapriya, an artist turning imagination into beautiful creations.</p>
-<div class="socials">
-<a href="https://www.instagram.com/debapriya171" target="_blank">
-<img src="https://cdn-icons-png.flaticon.com/512/2111/2111463.png">
-</a>
-<a href="https://www.facebook.com" target="_blank">
-<img src="https://cdn-icons-png.flaticon.com/512/733/733547.png">
-</a>
-</div>
 </section>
 
 <div id="albumView">
@@ -297,72 +145,78 @@ body.fade-out{opacity:0;}
 <button onclick="closeViewer()">Back</button>
 </div>
 
-<!-- Background Music -->
 <audio id="bgMusic" loop>
 <source src="music.mp3" type="audio/mpeg">
 </audio>
 
 <script>
-window.addEventListener("load",()=>{
-setTimeout(()=>{
-document.getElementById("preloader").style.opacity="0";
-setTimeout(()=>{document.getElementById("preloader").style.display="none";},600);
-},800);
-});
 
-/* THEME */
-document.getElementById("themeToggle").onclick=()=>{
-document.body.classList.toggle("dark");
-};
+/* DARK MODE */
+themeToggle.onclick=()=>document.body.classList.toggle("dark");
 
 /* MUSIC */
-const music=document.getElementById("bgMusic");
-const musicBtn=document.getElementById("musicToggle");
-
-musicBtn.onclick=()=>{
-if(music.paused){
-music.play();
-musicBtn.innerText="⏸";
-}else{
-music.pause();
-musicBtn.innerText="🎵";
-}
+window.addEventListener("load",()=>{
+bgMusic.volume=0.5;
+bgMusic.play().then(()=>musicToggle.innerText="⏸")
+.catch(()=>document.body.addEventListener("click",()=>{bgMusic.play();musicToggle.innerText="⏸";},{once:true}));
+});
+musicToggle.onclick=()=>{
+if(bgMusic.paused){bgMusic.play();musicToggle.innerText="⏸";}
+else{bgMusic.pause();musicToggle.innerText="🎵";}
 };
 
-/* ALBUM SYSTEM */
+/* FIXED ALBUM LOADER */
 function openAlbum(folder){
-document.getElementById("albumView").style.display="flex";
-document.getElementById("albumTitle").innerText=folder.toUpperCase();
-let grid=document.getElementById("albumGrid");
-grid.innerHTML="";
-let index=1;
+albumView.style.display="flex";
+albumTitle.innerText=folder.toUpperCase();
+albumGrid.innerHTML="Loading...";
 
-function loadNext(){
-let img=new Image();
-img.src=`images/${folder}/${index}.jpg`;
-img.onload=function(){
-img.onclick=()=>openViewer(img.src);
-grid.appendChild(img);
-index++;
-loadNext();
-};
-img.onerror=function(){};
-}
-loadNext();
-}
+fetch(`https://api.github.com/repos/priyacrafts/debapriya-arts/contents/images/${folder}?ref=main`)
+.then(res=>res.json())
+.then(data=>{
+albumGrid.innerHTML="";
+data.forEach(file=>{
+if(file.type==="file" && 
+(file.name.endsWith(".jpg") ||
+ file.name.endsWith(".jpeg") ||
+ file.name.endsWith(".png") ||
+ file.name.endsWith(".webp"))){
 
-function closeAlbum(){
-document.getElementById("albumView").style.display="none";
+let img=document.createElement("img");
+img.src=file.download_url;
+img.onclick=()=>openViewer(file.download_url);
+albumGrid.appendChild(img);
 }
-
-function openViewer(src){
-viewer.style.display="flex";
-viewerImg.src=src;
+});
+})
+.catch(()=>albumGrid.innerHTML="Failed to load images.");
 }
 
-function closeViewer(){
-viewer.style.display="none";
+function closeAlbum(){albumView.style.display="none";}
+function openViewer(src){viewer.style.display="flex";viewerImg.src=src;}
+function closeViewer(){viewer.style.display="none";}
+
+/* CURSOR SPARKLE */
+document.addEventListener("mousemove",e=>{
+let s=document.createElement("div");
+s.className="sparkle";
+s.style.left=e.clientX+"px";
+s.style.top=e.clientY+"px";
+document.body.appendChild(s);
+setTimeout(()=>s.remove(),800);
+});
+
+/* SHOOTING STAR */
+function shooting(){
+let star=document.createElement("div");
+star.className="shooting-star";
+star.style.top=Math.random()*window.innerHeight+"px";
+star.style.left=window.innerWidth+"px";
+document.body.appendChild(star);
+setTimeout(()=>star.remove(),3000);
 }
+setInterval(shooting,8000);
+
 </script>
 
 </body>
